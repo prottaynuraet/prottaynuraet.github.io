@@ -31,6 +31,22 @@
     #cursor-glow { pointer-events:none; position:fixed; width:400px; height:400px; background:radial-gradient(circle, rgba(248,206,10,0.12) 0%, rgba(0,0,0,0) 70%); border-radius:50%; transform:translate(-50%,-50%); transition:width 0.3s,height 0.3s; z-index:30; }
     .reveal { opacity:0; transform:translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
     .reveal.active { opacity:1; transform:translateY(0); }
+    .works-carousel { display:flex; gap:1.5rem; overflow-x:auto; padding:0.25rem 0 1.25rem; scroll-snap-type:x mandatory; scroll-behavior:smooth; scrollbar-color:#f8ce0a #121212; scrollbar-width:thin; -webkit-overflow-scrolling:touch; }
+    .work-card { flex:0 0 min(38vw,29rem); min-width:0; scroll-snap-align:start; }
+    .work-art { position:relative; aspect-ratio:1; overflow:hidden; border:1px solid rgba(248,206,10,0.22); border-radius:1rem; isolation:isolate; }
+    .work-art::before,.work-art::after { position:absolute; content:""; border:1px solid rgba(248,206,10,0.55); border-radius:50%; }
+    .work-art::before { width:68%; aspect-ratio:1; top:12%; right:-12%; }
+    .work-art::after { width:48%; aspect-ratio:1; top:22%; right:-2%; border-color:rgba(248,206,10,0.3); }
+    .work-art-rajnitee { background:radial-gradient(ellipse at 75% 30%,rgba(248,206,10,0.42),transparent 35%),linear-gradient(145deg,#453411,#15110a 65%,#080808); }
+    .work-art-shadows { background:radial-gradient(ellipse at 35% 45%,rgba(136,92,190,0.5),transparent 38%),linear-gradient(145deg,#252033,#121018 65%,#080808); }
+    .work-art-apex { background:radial-gradient(ellipse at 68% 58%,rgba(190,54,38,0.55),transparent 34%),linear-gradient(145deg,#371c18,#17100f 65%,#080808); }
+    .work-art-title { position:absolute; z-index:1; right:1.25rem; bottom:1.25rem; left:1.25rem; color:white; font-size:clamp(1.25rem,2vw,1.8rem); font-weight:900; line-height:1; letter-spacing:-0.06em; text-transform:uppercase; text-shadow:0 2px 18px #000; }
+    .work-art-index { position:absolute; z-index:1; top:1.25rem; left:1.25rem; color:#f8ce0a; font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.12em; }
+    .works-carousel-controls { display:flex; justify-content:flex-end; gap:.75rem; margin-top:1.5rem; }
+    .works-carousel-controls button { display:grid; width:2.75rem; height:2.75rem; place-items:center; border:1px solid #2a2a2a; border-radius:.75rem; background:#121212; color:#f8ce0a; transition:background .2s,border-color .2s; }
+    .works-carousel-controls button:hover { border-color:#f8ce0a; background:#1e1e1e; }
+    @media (max-width:767px) { .work-card { flex-basis:min(82vw,22rem); } }
+    @media (prefers-reduced-motion:reduce) { .works-carousel { scroll-behavior:auto; } }
   </style>
 </head>
 <body class="bg-cave-950 text-gray-100 font-sans selection:bg-gold selection:text-cave-950 noise-bg min-h-screen pb-28">
@@ -135,57 +151,44 @@
         <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">PORTFOLIO & ARCHIVE</span>
         <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">RECENT & PAST WORKS</h2>
       </div>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
-          <div>
-            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Mixed & Mastered</span><span class="text-xs text-gray-500 font-mono">Released Feb 2026</span></div>
-            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Rajnitee</h3>
-            <p class="text-xs text-gray-400 mb-6 font-mono">Hip-Hop • Apu Nandy</p>
+      <div id="works-carousel" class="works-carousel" role="region" aria-label="Recent and past works carousel" tabindex="0">
+        <article class="work-card">
+          <div class="work-art work-art-rajnitee" role="img" aria-label="Abstract gold cover artwork for Rajnitee">
+            <span class="work-art-index">01 / SINGLE</span><span class="work-art-title">Rajnitee</span>
           </div>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
-              <div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold/70 h-4 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold/50 h-5 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/60 h-3 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold/40 h-4 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
-            </div>
-            <div class="flex items-center justify-between pt-2">
-              <button onclick="playWorkTrack(0)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-0" class="fa-solid fa-play ml-0.5"></i></button>
-              <span id="work-duration-0" class="text-xs font-mono text-gray-400">Loading</span>
-            </div>
+          <div class="flex items-center justify-between mt-5 mb-2"><span class="text-[11px] font-mono text-gold uppercase tracking-widest">Mixed & Mastered</span><span class="text-xs text-gray-500 font-mono">Feb 2026</span></div>
+          <p class="text-xs text-gray-400 mb-4 font-mono">Hip-Hop • Apu Nandy</p>
+          <div class="flex items-center justify-between border-t border-cave-800 pt-4">
+            <button type="button" aria-label="Play Rajnitee" onclick="playWorkTrack(0)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-0" class="fa-solid fa-play ml-0.5"></i></button>
+            <span id="work-duration-0" class="text-xs font-mono text-gray-400">Loading</span>
           </div>
-        </div>
-
-        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
-          <div>
-            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Vocal Production</span><span class="text-xs text-gray-500 font-mono">Released Jan 2026</span></div>
-            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Shadows in Stereo</h3>
-            <p class="text-xs text-gray-400 mb-6 font-mono">Alternative R&B • Lyra Moon</p>
+        </article>
+        <article class="work-card">
+          <div class="work-art work-art-shadows" role="img" aria-label="Abstract purple cover artwork for Shadows in Stereo">
+            <span class="work-art-index">02 / SINGLE</span><span class="work-art-title">Shadows in Stereo</span>
           </div>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
-              <div class="w-1 bg-gold h-5 rounded-full animate-pulse"></div><div class="w-1 bg-gold/60 h-7 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold h-4 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold/80 h-8 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/70 h-5 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold/50 h-4 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
-            </div>
-            <div class="flex items-center justify-between pt-2">
-              <button onclick="playWorkTrack(1, 'Shadows in Stereo', 'Alternative R&B • Lyra Moon')" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i class="fa-solid fa-play ml-0.5"></i></button>
-              <span class="text-xs font-mono text-gray-400">2:58</span>
-            </div>
+          <div class="flex items-center justify-between mt-5 mb-2"><span class="text-[11px] font-mono text-gold uppercase tracking-widest">Vocal Production</span><span class="text-xs text-gray-500 font-mono">Jan 2026</span></div>
+          <p class="text-xs text-gray-400 mb-4 font-mono">Alternative R&B • Lyra Moon</p>
+          <div class="flex items-center justify-between border-t border-cave-800 pt-4">
+            <button type="button" aria-label="Play Shadows in Stereo" onclick="playWorkTrack(1)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-1" class="fa-solid fa-play ml-0.5"></i></button>
+            <span class="text-xs font-mono text-gray-400">2:58</span>
           </div>
-        </div>
-
-        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
-          <div>
-            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Full Production</span><span class="text-xs text-gray-500 font-mono">Released Dec 2025</span></div>
-            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Apex Predator</h3>
-            <p class="text-xs text-gray-400 mb-6 font-mono">Hard Trap • Yung Cipher</p>
+        </article>
+        <article class="work-card">
+          <div class="work-art work-art-apex" role="img" aria-label="Abstract red cover artwork for Apex Predator">
+            <span class="work-art-index">03 / SINGLE</span><span class="work-art-title">Apex Predator</span>
           </div>
-          <div class="space-y-4">
-            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
-              <div class="w-1 bg-gold/70 h-6 rounded-full animate-pulse"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold/80 h-5 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/50 h-4 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold/60 h-3 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
-            </div>
-            <div class="flex items-center justify-between pt-2">
-              <button onclick="playWorkTrack(2, 'Apex Predator', 'Hard Trap • Yung Cipher')" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i class="fa-solid fa-play ml-0.5"></i></button>
-              <span class="text-xs font-mono text-gray-400">2:40</span>
-            </div>
+          <div class="flex items-center justify-between mt-5 mb-2"><span class="text-[11px] font-mono text-gold uppercase tracking-widest">Full Production</span><span class="text-xs text-gray-500 font-mono">Dec 2025</span></div>
+          <p class="text-xs text-gray-400 mb-4 font-mono">Hard Trap • Yung Cipher</p>
+          <div class="flex items-center justify-between border-t border-cave-800 pt-4">
+            <button type="button" aria-label="Play Apex Predator" onclick="playWorkTrack(2)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-2" class="fa-solid fa-play ml-0.5"></i></button>
+            <span class="text-xs font-mono text-gray-400">2:40</span>
           </div>
-        </div>
+        </article>
+      </div>
+      <div class="works-carousel-controls" aria-label="Carousel controls">
+        <button type="button" aria-label="Scroll works left" onclick="scrollWorks(-1)"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
+        <button type="button" aria-label="Scroll works right" onclick="scrollWorks(1)"><i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button>
       </div>
     </div>
   </section>
@@ -197,7 +200,7 @@
         <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">INSIDE THE CAVE</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div class="group relative bg-cave-900 border border-cave-800 rounded-2xl overflow-hidden cursor-pointer shadow-xl gold-border" onclick="openModal('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG', 'Control Room & Mixing Console')">
+        <div class="group relative bg-cave-900 border border-cave-800 rounded-2xl overflow-hidden cursor-pointer shadow-xl gold-border" onclick="openModal('C:\Users\Nuraet Prottay\Documents\GitHub\prottaynuraet.github.io\assets\images\me 3.jpg', 'Control Room & Mixing Console')">
           <div class="h-72 overflow-hidden relative"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG" alt="Studio Photo 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div></div>
           <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between"><div><span class="text-xs font-mono text-gold uppercase">Studio Suite</span><h3 class="text-lg font-bold text-white">Control Room Console</h3></div><div class="w-10 h-10 bg-cave-950/80 border border-cave-700 rounded-xl flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-colors"><i class="fa-solid fa-expand"></i></div></div>
         </div>
@@ -412,10 +415,14 @@
       stickyPlayIcon.classList.toggle('fa-play', !playing);
       stickyPlayIcon.classList.toggle('ml-0.5', !playing);
       playerDiscIcon.classList.toggle('fa-spin', playing);
-      const workPlayIcon = document.getElementById('work-play-icon-0');
-      workPlayIcon.classList.toggle('fa-pause', playing && currentTrackIndex === 0);
-      workPlayIcon.classList.toggle('fa-play', !(playing && currentTrackIndex === 0));
-      workPlayIcon.classList.toggle('ml-0.5', !(playing && currentTrackIndex === 0));
+      playlist.slice(0, 3).forEach((track, index) => {
+        const workPlayIcon = document.getElementById(`work-play-icon-${index}`);
+        if (!workPlayIcon) return;
+        const isCurrentTrackPlaying = playing && currentTrackIndex === index;
+        workPlayIcon.classList.toggle('fa-pause', isCurrentTrackPlaying);
+        workPlayIcon.classList.toggle('fa-play', !isCurrentTrackPlaying);
+        workPlayIcon.classList.toggle('ml-0.5', !isCurrentTrackPlaying);
+      });
     }
 
     function formatTime(seconds) {
@@ -444,6 +451,15 @@
     function nextTrack() { selectTrack((currentTrackIndex + 1) % playlist.length); }
 
     function prevTrack() { selectTrack((currentTrackIndex - 1 + playlist.length) % playlist.length); }
+
+    function scrollWorks(direction) {
+      const carousel = document.getElementById('works-carousel');
+      const firstCard = carousel.querySelector('.work-card');
+      if (!firstCard) return;
+      const styles = getComputedStyle(carousel);
+      const gap = parseFloat(styles.columnGap) || 0;
+      carousel.scrollBy({ left: direction * (firstCard.getBoundingClientRect().width + gap), behavior: 'smooth' });
+    }
 
     function adjustVolume(val) { audioPlayer.volume = Number(val) / 100; }
     function triggerBuy(beatName) { showToast(`Secure checkout initiated for license: "${beatName}"`); }
