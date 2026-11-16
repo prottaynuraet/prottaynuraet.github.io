@@ -1,1 +1,508 @@
-Test
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Audio Cave | Professional Recording Studio & Beat Production</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: {
+          cave: { 950: '#060606', 900: '#0a0a0a', 800: '#121212', 700: '#1e1e1e', 600: '#2a2a2a' },
+          gold: { DEFAULT: '#f8ce0a', light: '#fde047', dark: '#caa305', glow: 'rgba(248, 206, 10, 0.35)' }
+        },
+        fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] }
+      }}
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    ::-webkit-scrollbar { width:8px; }
+    ::-webkit-scrollbar-track { background:#0a0a0a; }
+    ::-webkit-scrollbar-thumb { background:#1e1e1e; border-radius:4px; }
+    ::-webkit-scrollbar-thumb:hover { background:#f8ce0a; }
+    .gold-border { box-shadow: 0 0 20px rgba(248,206,10,0.15); transition: all 0.3s ease; }
+    .gold-border:hover { box-shadow: 0 0 30px rgba(248,206,10,0.35); }
+    .gold-text-glow { text-shadow: 0 0 15px rgba(248,206,10,0.4); }
+    .noise-bg { background-image: radial-gradient(rgba(248,206,10,0.04) 1px, transparent 0); background-size: 28px 28px; }
+    #cursor-glow { pointer-events:none; position:fixed; width:400px; height:400px; background:radial-gradient(circle, rgba(248,206,10,0.12) 0%, rgba(0,0,0,0) 70%); border-radius:50%; transform:translate(-50%,-50%); transition:width 0.3s,height 0.3s; z-index:30; }
+    .reveal { opacity:0; transform:translateY(30px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+    .reveal.active { opacity:1; transform:translateY(0); }
+  </style>
+</head>
+<body class="bg-cave-950 text-gray-100 font-sans selection:bg-gold selection:text-cave-950 noise-bg min-h-screen pb-28">
+  <div id="cursor-glow"></div>
+  <div id="toast" class="fixed top-24 right-6 z-50 transform -translate-y-10 opacity-0 transition-all duration-300 bg-cave-800 border border-gold text-gray-100 px-6 py-4 rounded-xl shadow-2xl flex items-center space-x-3">
+    <i class="fa-solid fa-circle-check text-gold text-xl"></i>
+    <span id="toast-message" class="font-medium">Action completed successfully!</span>
+  </div>
+
+  <header class="fixed top-0 left-0 right-0 z-40 bg-cave-950/85 backdrop-blur-md border-b border-cave-800 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="#" class="flex items-center space-x-3 group">
+        <div class="w-11 h-11 rounded-xl bg-cave-900 border border-gold/40 flex items-center justify-center overflow-hidden group-hover:border-gold transition-colors shadow-lg shadow-gold/10">
+          <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-7hNyEKf7PBvLDSjXZZX4p-v3VttvecaGwXd3xdWjHixIREn4e8IOE_95rORhCW_kK6uvqBbINbt1CiSWdwdoPJvGe-3G8ePMzf3vZNTpmAOH-axMddPYzHdDZVEWWNFMjefl2G_z8OjHSeufUrX9lSGoLZOTT-cEZJMfYRoyoJ7xfJXmL020-opfDp-r/s1600/Audio%20cave.jpg" alt="Logo" class="w-full h-full object-cover">
+        </div>
+        <div class="flex flex-col">
+          <span class="text-xl font-black tracking-wider uppercase text-white flex items-center">AUDIO <span class="text-gold ml-1.5 gold-text-glow">CAVE</span></span>
+          <span class="text-[9px] text-gray-400 font-mono tracking-widest uppercase">Pro Recording Studio</span>
+        </div>
+      </a>
+      <nav class="hidden md:flex items-center space-x-8 font-medium text-sm">
+        <a href="#about" class="text-gray-300 hover:text-gold transition-colors">About</a>
+        <a href="#works" class="text-gray-300 hover:text-gold transition-colors">Works & Portfolio</a>
+        <a href="#gallery" class="text-gray-300 hover:text-gold transition-colors">Studio Gallery</a>
+        <a href="#services" class="text-gray-300 hover:text-gold transition-colors">Services & Gear</a>
+        <a href="#beats" class="text-gray-300 hover:text-gold transition-colors">Beat Store</a>
+        <a href="#booking" class="bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-bold px-5 py-2.5 rounded-xl hover:brightness-110 transition-all">Book Session</a>
+      </nav>
+      <button id="menu-btn" class="md:hidden text-gray-300 hover:text-gold text-2xl focus:outline-none p-2"><i class="fa-solid fa-bars"></i></button>
+    </div>
+    <div id="mobile-menu" class="hidden md:hidden bg-cave-900 border-b border-cave-800 px-6 py-6 space-y-4 shadow-2xl">
+      <a href="#about" class="block text-gray-300 hover:text-gold text-lg font-medium">About</a>
+      <a href="#works" class="block text-gray-300 hover:text-gold text-lg font-medium">Works & Portfolio</a>
+      <a href="#gallery" class="block text-gray-300 hover:text-gold text-lg font-medium">Studio Gallery</a>
+      <a href="#services" class="block text-gray-300 hover:text-gold text-lg font-medium">Services & Gear</a>
+      <a href="#beats" class="block text-gray-300 hover:text-gold text-lg font-medium">Beat Store</a>
+      <a href="#booking" class="block text-center bg-gold text-cave-950 font-bold py-3 rounded-xl">Book Session</a>
+    </div>
+  </header>
+
+  <section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG" alt="Studio Background" class="w-full h-full object-cover scale-105 transition-transform duration-1000 opacity-30">
+      <div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/80 to-cave-950/40"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center py-12">
+      <div class="inline-flex items-center space-x-2 bg-cave-900/90 border border-cave-700 px-4 py-2 rounded-full text-xs font-mono text-gold mb-6 shadow-xl backdrop-blur-md">
+        <span class="w-2.5 h-2.5 rounded-full bg-gold animate-ping"></span>
+        <span>STATE-OF-THE-ART ACOUSTIC ENVIRONMENT</span>
+      </div>
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white uppercase max-w-5xl mx-auto leading-tight">SHAPE YOUR <span class="text-gold gold-text-glow bg-gradient-to-r from-gold via-yellow-300 to-amber-500 bg-clip-text text-transparent">MASTERPIECE</span> IN THE CAVE.</h1>
+      <div class="h-12 flex items-center justify-center my-6"><p id="typing-text" class="text-gold font-mono text-lg sm:text-2xl font-semibold tracking-wide border-r-2 border-gold pr-2 animate-pulse"></p></div>
+      <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10">Professional vocal recording, analog mixing, heavy-hitting beat production, and world-class mastering built for artists who demand ultimate acoustic fidelity.</p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto">
+        <a href="#booking" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-bold px-8 py-4 rounded-xl hover:brightness-110 transition-all shadow-xl shadow-gold/25 flex items-center justify-center space-x-3 text-base"><i class="fa-solid fa-microphone-lines"></i><span>Book Session Now</span></a>
+        <a href="#works" class="w-full sm:w-auto bg-cave-900/80 hover:bg-cave-800 text-gray-200 border border-cave-700 font-semibold px-8 py-4 rounded-xl transition-all backdrop-blur-md flex items-center justify-center space-x-3 text-base"><i class="fa-solid fa-compact-disc text-gold"></i><span>Listen to Works</span></a>
+      </div>
+      <div class="flex items-center justify-center space-x-6 mt-12 text-gray-400 text-xl">
+        <a href="#" class="hover:text-gold transition-colors transform hover:scale-110"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" class="hover:text-gold transition-colors transform hover:scale-110"><i class="fa-brands fa-soundcloud"></i></a>
+        <a href="#" class="hover:text-gold transition-colors transform hover:scale-110"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" class="hover:text-gold transition-colors transform hover:scale-110"><i class="fa-brands fa-spotify"></i></a>
+        <a href="#" class="hover:text-gold transition-colors transform hover:scale-110"><i class="fa-brands fa-tiktok"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="py-24 bg-cave-900/60 border-t border-b border-cave-800 relative reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-6 space-y-6">
+          <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">THE STUDIO PHILOSOPHY</span>
+          <h2 class="text-3xl sm:text-5xl font-black text-white uppercase leading-tight">BUILT BY ARTISTS, FOR ARTISTS.</h2>
+          <p class="text-gray-300 text-base leading-relaxed">Audio Cave was engineered from the ground up to eliminate acoustic anomalies and deliver pristine sound quality.</p>
+          <p class="text-gray-400 text-sm leading-relaxed">Equipped with high-end analog preamps, vintage compression hardware, and custom bass traps, our workflow bridges classic analog warmth and modern digital precision.</p>
+          <div class="grid grid-cols-3 gap-6 pt-4 border-t border-cave-800">
+            <div><div class="text-2xl sm:text-3xl font-black text-white font-mono">15+</div><div class="text-xs text-gray-400 mt-1 uppercase tracking-wider">Years Experience</div></div>
+            <div><div class="text-2xl sm:text-3xl font-black text-gold font-mono">1,200+</div><div class="text-xs text-gray-400 mt-1 uppercase tracking-wider">Mastered Tracks</div></div>
+            <div><div class="text-2xl sm:text-3xl font-black text-white font-mono">100%</div><div class="text-xs text-gray-400 mt-1 uppercase tracking-wider">Acoustic Precision</div></div>
+          </div>
+        </div>
+        <div class="lg:col-span-6 relative">
+          <div class="relative rounded-2xl overflow-hidden border border-cave-700 shadow-2xl group">
+            <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG" alt="Audio Cave Studio Main Room" class="w-full h-96 object-cover group-hover:scale-105 transition-transform duration-700">
+            <div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/20 to-transparent"></div>
+            <div class="absolute bottom-6 left-6 right-6 flex items-center justify-between">
+              <div>
+                <span class="text-xs font-mono text-gold uppercase tracking-widest bg-cave-900/80 px-3 py-1 rounded-md border border-cave-700">Control Room A</span>
+                <h3 class="text-xl font-bold text-white mt-2">Precision Monitoring Station</h3>
+              </div>
+              <div class="w-12 h-12 bg-gold text-cave-950 rounded-xl flex items-center justify-center shadow-lg font-bold"><i class="fa-solid fa-volume-high"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="works" class="py-24 reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">PORTFOLIO & ARCHIVE</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">RECENT & PAST WORKS</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Mixed & Mastered</span><span class="text-xs text-gray-500 font-mono">Released Feb 2026</span></div>
+            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Rajnitee</h3>
+            <p class="text-xs text-gray-400 mb-6 font-mono">Hip-Hop • Apu Nandy</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
+              <div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold/70 h-4 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold/50 h-5 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/60 h-3 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold/40 h-4 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
+            </div>
+            <div class="flex items-center justify-between pt-2">
+              <button onclick="playWorkTrack(0)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-0" class="fa-solid fa-play ml-0.5"></i></button>
+              <span id="work-duration-0" class="text-xs font-mono text-gray-400">Loading</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Vocal Production</span><span class="text-xs text-gray-500 font-mono">Released Jan 2026</span></div>
+            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Shadows in Stereo</h3>
+            <p class="text-xs text-gray-400 mb-6 font-mono">Alternative R&B • Lyra Moon</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
+              <div class="w-1 bg-gold h-5 rounded-full animate-pulse"></div><div class="w-1 bg-gold/60 h-7 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold h-4 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold/80 h-8 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/70 h-5 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold/50 h-4 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
+            </div>
+            <div class="flex items-center justify-between pt-2">
+              <button onclick="playWorkTrack(1, 'Shadows in Stereo', 'Alternative R&B • Lyra Moon')" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i class="fa-solid fa-play ml-0.5"></i></button>
+              <span class="text-xs font-mono text-gray-400">2:58</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-cave-900 border border-cave-800 rounded-2xl p-6 gold-border flex flex-col justify-between group hover:border-gold/60 transition-all">
+          <div>
+            <div class="flex items-center justify-between mb-4"><span class="text-[11px] font-mono text-gold uppercase tracking-widest bg-cave-950 px-3 py-1 rounded-md border border-cave-800">Full Production</span><span class="text-xs text-gray-500 font-mono">Released Dec 2025</span></div>
+            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-gold transition-colors">Apex Predator</h3>
+            <p class="text-xs text-gray-400 mb-6 font-mono">Hard Trap • Yung Cipher</p>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between h-8 bg-cave-950 px-3 rounded-xl border border-cave-800">
+              <div class="w-1 bg-gold/70 h-6 rounded-full animate-pulse"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.3s"></div><div class="w-1 bg-gold/40 h-3 rounded-full animate-pulse" style="animation-delay:0.1s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.2s"></div><div class="w-1 bg-gold/80 h-5 rounded-full animate-pulse" style="animation-delay:0.4s"></div><div class="w-1 bg-gold h-6 rounded-full animate-pulse" style="animation-delay:0.15s"></div><div class="w-1 bg-gold/50 h-4 rounded-full animate-pulse" style="animation-delay:0.25s"></div><div class="w-1 bg-gold h-8 rounded-full animate-pulse" style="animation-delay:0.05s"></div><div class="w-1 bg-gold/60 h-3 rounded-full animate-pulse" style="animation-delay:0.35s"></div><div class="w-1 bg-gold h-7 rounded-full animate-pulse" style="animation-delay:0.45s"></div>
+            </div>
+            <div class="flex items-center justify-between pt-2">
+              <button onclick="playWorkTrack(2, 'Apex Predator', 'Hard Trap • Yung Cipher')" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i class="fa-solid fa-play ml-0.5"></i></button>
+              <span class="text-xs font-mono text-gray-400">2:40</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="gallery" class="py-24 reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">VISUAL TOUR</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">INSIDE THE CAVE</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="group relative bg-cave-900 border border-cave-800 rounded-2xl overflow-hidden cursor-pointer shadow-xl gold-border" onclick="openModal('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG', 'Control Room & Mixing Console')">
+          <div class="h-72 overflow-hidden relative"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgqegXat26znfBd2raPfdWIXhTOq4WXa7FgZvv5dPeUnEdEf5QHAaLUxSvPniTn4RVrCTvr9t_tHUAPWlBMGA6GHSX8XtcgBfH1gZo0OnsPkyIfMIFaoVPPR7K1K2O-tDg-Pl3UyphLtp9P5GBrAWiaMakD8W32qFXS8fEAr0MDrdUVb-xttQC0WKw0p-Kc/s1600/_TEL4631.JPG" alt="Studio Photo 1" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between"><div><span class="text-xs font-mono text-gold uppercase">Studio Suite</span><h3 class="text-lg font-bold text-white">Control Room Console</h3></div><div class="w-10 h-10 bg-cave-950/80 border border-cave-700 rounded-xl flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-colors"><i class="fa-solid fa-expand"></i></div></div>
+        </div>
+
+        <div class="group relative bg-cave-900 border border-cave-800 rounded-2xl overflow-hidden cursor-pointer shadow-xl gold-border" onclick="openModal('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjW_LTRgke_KZ7_kFXu4Dmad8VMYU6aU1_2jROlSIalTJn7pD7ohmgWYWpAKXcmUZInn_l63WZgCat7MYvTE0dmkuTYylVINBdVtGxY6J6XgQ7Au7A8-ACP8oGDs583wEGsmtEWFqJ7v17eX97YamEn3QmzNcTEyi8pbztaOFi0CieDoNBT3VdrHB6TjSST/s1600/_TEL4529.ARW', 'Vocal Booth & Acoustic Treatment')">
+          <div class="h-72 overflow-hidden relative"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjW_LTRgke_KZ7_kFXu4Dmad8VMYU6aU1_2jROlSIalTJn7pD7ohmgWYWpAKXcmUZInn_l63WZgCat7MYvTE0dmkuTYylVINBdVtGxY6J6XgQ7Au7A8-ACP8oGDs583wEGsmtEWFqJ7v17eX97YamEn3QmzNcTEyi8pbztaOFi0CieDoNBT3VdrHB6TjSST/s1600/_TEL4529.ARW" alt="Studio Photo 2" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between"><div><span class="text-xs font-mono text-gold uppercase">Vocal Booth</span><h3 class="text-lg font-bold text-white">Acoustic Dead Room</h3></div><div class="w-10 h-10 bg-cave-950/80 border border-cave-700 rounded-xl flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-colors"><i class="fa-solid fa-expand"></i></div></div>
+        </div>
+
+        <div class="group relative bg-cave-900 border border-cave-800 rounded-2xl overflow-hidden cursor-pointer shadow-xl gold-border" onclick="openModal('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcNbapZ1zQJWAz5nEheVJmKcFYNnOb9o6rGaEVchU6g8hiEIcGR8Cpq2Ot4ek7NjgLdmt4ZFNv3G-r7CM4Dm_v7Ng31CDr3LTYQKXzXDjDuZs3ck4tvylGFRU1LgNv_Aiu4pSfGr8OyU5xNqlgk49JXOCtOVsrUdfq0BZV7wQFtELzKaKRkrRmE7vY6McD/s1600/_TEL4595.JPG', 'Analog Gear & Hardware Racks')">
+          <div class="h-72 overflow-hidden relative"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjcNbapZ1zQJWAz5nEheVJmKcFYNnOb9o6rGaEVchU6g8hiEIcGR8Cpq2Ot4ek7NjgLdmt4ZFNv3G-r7CM4Dm_v7Ng31CDr3LTYQKXzXDjDuZs3ck4tvylGFRU1LgNv_Aiu4pSfGr8OyU5xNqlgk49JXOCtOVsrUdfq0BZV7wQFtELzKaKRkrRmE7vY6McD/s1600/_TEL4595.JPG" alt="Studio Photo 3" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-cave-950 via-cave-950/30 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div></div>
+          <div class="absolute bottom-0 left-0 right-0 p-6 flex items-center justify-between"><div><span class="text-xs font-mono text-gold uppercase">Hardware</span><h3 class="text-lg font-bold text-white">Analog Gear Racks</h3></div><div class="w-10 h-10 bg-cave-950/80 border border-cave-700 rounded-xl flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-colors"><i class="fa-solid fa-expand"></i></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-24 bg-cave-900/50 border-t border-b border-cave-800 reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">WHAT WE OFFER</span>
+        <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">STUDIO SERVICES & HARDWARE</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-cave-900 border border-cave-800 p-8 rounded-2xl hover:border-gold transition-all duration-300 group shadow-lg"><div class="w-14 h-14 bg-cave-950 rounded-xl border border-cave-700 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-cave-950 transition-all"><i class="fa-solid fa-microphone"></i></div><h3 class="text-xl font-bold text-white mb-3">Vocal Recording</h3><p class="text-gray-400 text-sm leading-relaxed mb-6">Crystal-clear vocal capture using Neumann U87 and Avalon preamps in an acoustically balanced dead-room.</p><div class="text-gold font-mono text-xs font-bold tracking-wider uppercase">Starts at $60/hr</div></div>
+        <div class="bg-cave-900 border border-cave-800 p-8 rounded-2xl hover:border-gold transition-all duration-300 group shadow-lg"><div class="w-14 h-14 bg-cave-950 rounded-xl border border-cave-700 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-cave-950 transition-all"><i class="fa-solid fa-sliders"></i></div><h3 class="text-xl font-bold text-white mb-3">Mixing & Mastering</h3><p class="text-gray-400 text-sm leading-relaxed mb-6">Industry-standard analog summing, precision EQ, dynamic control, and streaming loudness compliance.</p><div class="text-gold font-mono text-xs font-bold tracking-wider uppercase">Starts at $150/song</div></div>
+        <div class="bg-cave-900 border border-cave-800 p-8 rounded-2xl hover:border-gold transition-all duration-300 group shadow-lg"><div class="w-14 h-14 bg-cave-950 rounded-xl border border-cave-700 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-cave-950 transition-all"><i class="fa-solid fa-drum"></i></div><h3 class="text-xl font-bold text-white mb-3">Beat Production</h3><p class="text-gray-400 text-sm leading-relaxed mb-6">Custom instrumentals across Trap, Drill, R&B, and Hip-Hop custom tailored around your vocal cadence.</p><div class="text-gold font-mono text-xs font-bold tracking-wider uppercase">Exclusive & Lease Options</div></div>
+        <div class="bg-cave-900 border border-cave-800 p-8 rounded-2xl hover:border-gold transition-all duration-300 group shadow-lg"><div class="w-14 h-14 bg-cave-950 rounded-xl border border-cave-700 flex items-center justify-center text-gold text-2xl mb-6 group-hover:bg-gold group-hover:text-cave-950 transition-all"><i class="fa-solid fa-podcast"></i></div><h3 class="text-xl font-bold text-white mb-3">Podcast & Voiceover</h3><p class="text-gray-400 text-sm leading-relaxed mb-6">Multi-mic podcast setups, video sync capability, broadcast-quality voiceovers with rapid turnaround.</p><div class="text-gold font-mono text-xs font-bold tracking-wider uppercase">Custom Package</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="beats" class="py-24 reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
+        <div>
+          <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">BEAT STORE</span>
+          <h2 class="text-3xl sm:text-5xl font-black text-white mt-4 uppercase">TEST DRIVE INSTRUMENTALS</h2>
+        </div>
+        <p class="text-gray-400 mt-4 md:mt-0 max-w-md text-sm">Preview our catalog below. Clicking play will immediately load the track into the global sticky player at the bottom.</p>
+      </div>
+      <div class="space-y-4">
+        <div class="bg-cave-900 border border-cave-800 hover:border-gold/50 p-5 sm:p-6 rounded-2xl flex items-center justify-between transition-all group"><div class="flex items-center space-x-4"><button onclick="playBeat(0, 'Cybernetic Wave')" class="w-12 h-12 rounded-xl bg-cave-950 border border-cave-700 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-all shadow-md"><i class="fa-solid fa-play"></i></button><div><h4 class="font-bold text-white group-hover:text-gold transition-colors text-base">Cybernetic Wave</h4><p class="text-xs text-gray-400 font-mono">Dark Trap • 140 BPM</p></div></div><div class="flex items-center space-x-4"><span class="hidden sm:inline-block font-mono text-xs text-gray-400 bg-cave-950 px-3 py-1.5 rounded-lg border border-cave-800">2:45</span><button onclick="triggerBuy('Cybernetic Wave')" class="bg-cave-950 hover:bg-gold hover:text-cave-950 text-gray-200 border border-cave-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all">$35 License</button></div></div>
+        <div class="bg-cave-900 border border-cave-800 hover:border-gold/50 p-5 sm:p-6 rounded-2xl flex items-center justify-between transition-all group"><div class="flex items-center space-x-4"><button onclick="playBeat(1, 'Obsidian Drill')" class="w-12 h-12 rounded-xl bg-cave-950 border border-cave-700 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-all shadow-md"><i class="fa-solid fa-play"></i></button><div><h4 class="font-bold text-white group-hover:text-gold transition-colors text-base">Obsidian Drill</h4><p class="text-xs text-gray-400 font-mono">UK Drill • 142 BPM</p></div></div><div class="flex items-center space-x-4"><span class="hidden sm:inline-block font-mono text-xs text-gray-400 bg-cave-950 px-3 py-1.5 rounded-lg border border-cave-800">3:12</span><button onclick="triggerBuy('Obsidian Drill')" class="bg-cave-950 hover:bg-gold hover:text-cave-950 text-gray-200 border border-cave-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all">$35 License</button></div></div>
+        <div class="bg-cave-900 border border-cave-800 hover:border-gold/50 p-5 sm:p-6 rounded-2xl flex items-center justify-between transition-all group"><div class="flex items-center space-x-4"><button onclick="playBeat(2, 'Neon Lofi Daze')" class="w-12 h-12 rounded-xl bg-cave-950 border border-cave-700 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-all shadow-md"><i class="fa-solid fa-play"></i></button><div><h4 class="font-bold text-white group-hover:text-gold transition-colors text-base">Neon Lofi Daze</h4><p class="text-xs text-gray-400 font-mono">Lofi R&B • 85 BPM</p></div></div><div class="flex items-center space-x-4"><span class="hidden sm:inline-block font-mono text-xs text-gray-400 bg-cave-950 px-3 py-1.5 rounded-lg border border-cave-800">2:30</span><button onclick="triggerBuy('Neon Lofi Daze')" class="bg-cave-950 hover:bg-gold hover:text-cave-950 text-gray-200 border border-cave-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all">$25 License</button></div></div>
+        <div class="bg-cave-900 border border-cave-800 hover:border-gold/50 p-5 sm:p-6 rounded-2xl flex items-center justify-between transition-all group"><div class="flex items-center space-x-4"><button onclick="playBeat(3, 'Subterranean Bass')" class="w-12 h-12 rounded-xl bg-cave-950 border border-cave-700 flex items-center justify-center text-gold group-hover:bg-gold group-hover:text-cave-950 transition-all shadow-md"><i class="fa-solid fa-play"></i></button><div><h4 class="font-bold text-white group-hover:text-gold transition-colors text-base">Subterranean Bass</h4><p class="text-xs text-gray-400 font-mono">Phonk • 130 BPM</p></div></div><div class="flex items-center space-x-4"><span class="hidden sm:inline-block font-mono text-xs text-gray-400 bg-cave-950 px-3 py-1.5 rounded-lg border border-cave-800">2:55</span><button onclick="triggerBuy('Subterranean Bass')" class="bg-cave-950 hover:bg-gold hover:text-cave-950 text-gray-200 border border-cave-700 text-xs font-bold px-4 py-2.5 rounded-xl transition-all">$30 License</button></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="booking" class="py-24 bg-cave-900/60 border-t border-cave-800 relative reveal">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <div class="lg:col-span-5 space-y-6">
+          <span class="text-gold font-mono text-sm tracking-widest uppercase bg-cave-900 px-3.5 py-1.5 rounded-md border border-cave-700 inline-block">SECURE YOUR SLOT</span>
+          <h2 class="text-3xl sm:text-5xl font-black text-white uppercase leading-none">BOOK A SESSION TODAY</h2>
+          <p class="text-gray-400 text-base leading-relaxed">Ready to elevate your sound? Submit your project details below and our lead engineer will confirm your slot within 2 hours.</p>
+          <div class="space-y-4 pt-4">
+            <div class="flex items-center space-x-4 text-gray-300"><div class="w-12 h-12 bg-cave-950 border border-cave-700 rounded-xl flex items-center justify-center text-gold"><i class="fa-solid fa-location-dot"></i></div><div><div class="text-xs text-gray-500 font-mono">STUDIO LOCATION</div><div class="font-semibold text-white">404 Sound Avenue, Suite B, Downtown</div></div></div>
+            <div class="flex items-center space-x-4 text-gray-300"><div class="w-12 h-12 bg-cave-950 border border-cave-700 rounded-xl flex items-center justify-center text-gold"><i class="fa-solid fa-envelope"></i></div><div><div class="text-xs text-gray-500 font-mono">EMAIL INQUIRIES</div><div class="font-semibold text-white">sessions@audiocave.studio</div></div></div>
+            <div class="flex items-center space-x-4 text-gray-300"><div class="w-12 h-12 bg-cave-950 border border-cave-700 rounded-xl flex items-center justify-center text-gold"><i class="fa-solid fa-phone"></i></div><div><div class="text-xs text-gray-500 font-mono">CALL / WHATSAPP</div><div class="font-semibold text-white">+1 (555) 839-CAVE</div></div></div>
+          </div>
+        </div>
+        <div class="lg:col-span-7">
+          <form id="booking-form" onsubmit="handleBooking(event)" class="bg-cave-900 border border-cave-700 rounded-3xl p-8 sm:p-10 shadow-2xl space-y-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-xs font-mono text-gray-400 uppercase mb-2">Your Name / Artist Name</label><input type="text" id="name" required class="w-full bg-cave-950 border border-cave-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-gold transition-colors" placeholder="e.g. Metro Boomin"></div><div><label class="block text-xs font-mono text-gray-400 uppercase mb-2">Email Address</label><input type="email" id="email" required class="w-full bg-cave-950 border border-cave-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-gold transition-colors" placeholder="artist@domain.com"></div></div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6"><div><label class="block text-xs font-mono text-gray-400 uppercase mb-2">Select Service</label><select id="service" class="w-full bg-cave-950 border border-cave-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-gold transition-colors"><option value="Vocal Recording">Vocal Recording ($60/hr)</option><option value="Mixing & Mastering">Mixing & Mastering ($150/song)</option><option value="Beat Production">Custom Beat Production</option><option value="Full Studio Block">Full Studio Block (4 hrs)</option></select></div><div><label class="block text-xs font-mono text-gray-400 uppercase mb-2">Preferred Date</label><input type="date" id="date" required class="w-full bg-cave-950 border border-cave-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-gold transition-colors"></div></div>
+            <div><label class="block text-xs font-mono text-gray-400 uppercase mb-2">Project Notes or References</label><textarea id="notes" rows="4" class="w-full bg-cave-950 border border-cave-700 rounded-xl px-4 py-3.5 text-white focus:outline-none focus:border-gold transition-colors" placeholder="Tell us about your genre, number of stems, or reference links..."></textarea></div>
+            <button type="submit" class="w-full bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-bold py-4 rounded-xl hover:brightness-110 transition-all shadow-xl shadow-gold/20 flex items-center justify-center space-x-2 text-lg"><i class="fa-solid fa-paper-plane"></i><span>Confirm Booking Request</span></button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-cave-950 border-t border-cave-800 py-12 text-gray-400 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div class="flex items-center space-x-3"><div class="w-9 h-9 rounded-lg bg-cave-900 border border-gold/50 flex items-center justify-center overflow-hidden"><img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-7hNyEKf7PBvLDSjXZZX4p-v3VttvecaGwXd3xdWjHixIREn4e8IOE_95rORhCW_kK6uvqBbINbt1CiSWdwdoPJvGe-3G8ePMzf3vZNTpmAOH-axMddPYzHdDZVEWWNFMjefl2G_z8OjHSeufUrX9lSGoLZOTT-cEZJMfYRoyoJ7xfJXmL020-opfDp-r/s1600/Audio%20cave.jpg" alt="Logo" class="w-full h-full object-cover"></div><span class="text-white font-bold tracking-wider uppercase">AUDIO CAVE</span></div>
+      <p class="text-xs text-gray-500 font-mono">© 2026 Audio Cave Studios. All rights reserved. Built for sonic perfection.</p>
+      <div class="flex items-center space-x-6 text-xl"><a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fa-brands fa-instagram"></i></a><a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fa-brands fa-soundcloud"></i></a><a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fa-brands fa-youtube"></i></a><a href="#" class="text-gray-400 hover:text-gold transition-colors"><i class="fa-brands fa-spotify"></i></a></div>
+    </div>
+  </footer>
+
+  <div id="sticky-player" class="fixed bottom-0 left-0 right-0 z-40 bg-cave-900/95 backdrop-blur-md border-t border-cave-700 shadow-2xl py-3 px-4 sm:px-8 flex items-center justify-between">
+    <div class="flex items-center space-x-4 w-1/3 sm:w-1/4"><div class="w-12 h-12 bg-cave-950 border border-cave-700 rounded-xl flex items-center justify-center text-gold text-xl shadow-inner"><i id="player-disc-icon" class="fa-solid fa-compact-disc"></i></div><div class="overflow-hidden"><h4 id="sticky-title" class="text-sm font-bold text-white truncate">Rajnitee</h4><p id="sticky-genre" class="text-[11px] text-gray-400 truncate font-mono">Hip-Hop • Apu Nandy</p></div></div>
+    <div class="flex flex-col items-center w-1/3 sm:w-2/4 space-y-1"><div class="flex items-center space-x-5"><button onclick="prevTrack()" class="text-gray-400 hover:text-gold transition-colors text-sm"><i class="fa-solid fa-backward-step"></i></button><button onclick="toggleGlobalPlay()" id="sticky-play-btn" class="w-10 h-10 rounded-xl bg-gold text-cave-950 flex items-center justify-center hover:scale-105 transition-all shadow-md text-lg"><i id="sticky-play-icon" class="fa-solid fa-play ml-0.5"></i></button><button onclick="nextTrack()" class="text-gray-400 hover:text-gold transition-colors text-sm"><i class="fa-solid fa-forward-step"></i></button></div><div class="w-full max-w-md hidden sm:flex items-center space-x-3 text-[10px] font-mono text-gray-400"><span id="player-current-time">0:00</span><div class="flex-1 bg-cave-950 h-2 rounded-full overflow-hidden border border-cave-800 cursor-pointer" onclick="seekGlobalPlayer(event)"><div id="sticky-progress" class="bg-gold h-full w-0 transition-all duration-100"></div></div><span id="player-total-duration">Loading</span></div></div>
+    <div class="hidden sm:flex items-center space-x-4 w-1/4 justify-end"><i class="fa-solid fa-volume-high text-gray-400 text-sm"></i><input type="range" min="0" max="100" value="80" oninput="adjustVolume(this.value)" class="w-24 accent-gold cursor-pointer h-1.5 bg-cave-950 rounded-lg"><button onclick="triggerBuy(currentTrack.title)" class="bg-cave-950 hover:bg-gold hover:text-cave-950 text-gold border border-cave-700 text-xs font-bold px-3 py-1.5 rounded-lg transition-all">Buy License</button></div>
+  </div>
+  <audio id="global-audio" preload="metadata"></audio>
+
+  <div id="image-modal" class="fixed inset-0 z-50 bg-cave-950/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeModal()">
+    <div class="relative max-w-4xl w-full bg-cave-900 border border-cave-700 rounded-3xl p-4 overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 z-10 w-10 h-10 bg-cave-950/80 border border-cave-700 text-white rounded-full flex items-center justify-center hover:bg-gold hover:text-cave-950 transition-colors"><i class="fa-solid fa-xmark text-lg"></i></button>
+      <img id="modal-img" src="" alt="Studio Photo Zoom" class="w-full max-h-[75vh] object-contain rounded-2xl mb-4">
+      <h3 id="modal-caption" class="text-center font-bold text-lg text-white font-mono">Studio Photo</h3>
+    </div>
+  </div>
+
+  <script>
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+
+    const cursorGlow = document.getElementById('cursor-glow');
+    window.addEventListener('mousemove', (e) => {
+      cursorGlow.style.left = e.clientX + 'px';
+      cursorGlow.style.top = e.clientY + 'px';
+    });
+
+    const words = ['PROFESSIONAL RECORDING', 'BEAT PRODUCTION', 'ANALOG MIXING & MASTERING', 'ACOUSTIC PERFECTION'];
+    let wordIndex = 0, charIndex = 0, isDeleting = false;
+    const typingElement = document.getElementById('typing-text');
+    function typeEffect() {
+      const currentWord = words[wordIndex];
+      if (isDeleting) {
+        typingElement.innerText = currentWord.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingElement.innerText = currentWord.substring(0, charIndex + 1);
+        charIndex++;
+      }
+      let typeSpeed = isDeleting ? 40 : 80;
+      if (!isDeleting && charIndex === currentWord.length) { typeSpeed = 2000; isDeleting = true; }
+      else if (isDeleting && charIndex === 0) { isDeleting = false; wordIndex = (wordIndex + 1) % words.length; typeSpeed = 500; }
+      setTimeout(typeEffect, typeSpeed);
+    }
+    document.addEventListener('DOMContentLoaded', typeEffect);
+
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, observerOptions);
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    const playlist = [
+      { title: 'Rajnitee', genre: 'Hip-Hop • Apu Nandy', audioSrc: 'https://raw.githubusercontent.com/prottaynuraet/audio/refs/heads/main/rajnitee.wav' },
+      { title: 'Shadows in Stereo', genre: 'Alternative R&B • Lyra Moon', duration: '2:58', seconds: 178 },
+      { title: 'Apex Predator', genre: 'Hard Trap • Yung Cipher', duration: '2:40', seconds: 160 },
+      { title: 'Cybernetic Wave', genre: 'Dark Trap • 140 BPM', duration: '2:45', seconds: 165 },
+      { title: 'Obsidian Drill', genre: 'UK Drill • 142 BPM', duration: '3:12', seconds: 192 },
+      { title: 'Neon Lofi Daze', genre: 'Lofi R&B • 85 BPM', duration: '2:30', seconds: 150 },
+      { title: 'Subterranean Bass', genre: 'Phonk • 130 BPM', duration: '2:55', seconds: 175 }
+    ];
+
+    let currentTrackIndex = 0, currentTrack = playlist[0], isPlaying = false, toastTimeout = null;
+    const audioPlayer = document.getElementById('global-audio');
+    const stickyTitle = document.getElementById('sticky-title');
+    const stickyGenre = document.getElementById('sticky-genre');
+    const stickyPlayIcon = document.getElementById('sticky-play-icon');
+    const stickyProgress = document.getElementById('sticky-progress');
+    const playerCurrentTime = document.getElementById('player-current-time');
+    const playerTotalDuration = document.getElementById('player-total-duration');
+    const playerDiscIcon = document.getElementById('player-disc-icon');
+
+    function updatePlayerUI() {
+      currentTrack = playlist[currentTrackIndex];
+      stickyTitle.innerText = currentTrack.title;
+      stickyGenre.innerText = currentTrack.genre;
+      playerTotalDuration.innerText = currentTrack.duration || '0:00';
+      audioPlayer.pause();
+      if (currentTrack.audioSrc) {
+        audioPlayer.src = currentTrack.audioSrc;
+        audioPlayer.load();
+      } else {
+        audioPlayer.removeAttribute('src');
+        audioPlayer.load();
+      }
+      updateProgressUI();
+    }
+
+    async function selectTrack(index) {
+      currentTrackIndex = index;
+      updatePlayerUI();
+      if (!currentTrack.audioSrc) {
+        showToast(`Audio preview not available yet for "${currentTrack.title}".`);
+        return;
+      }
+      await playCurrentTrack();
+    }
+
+    function playBeat(indexOffset) { selectTrack(indexOffset + 3); }
+
+    function playWorkTrack(indexOffset) {
+      if (currentTrackIndex === indexOffset && currentTrack.audioSrc && !audioPlayer.paused) {
+        audioPlayer.pause();
+        return;
+      }
+      selectTrack(indexOffset);
+    }
+
+    async function toggleGlobalPlay() {
+      if (!currentTrack.audioSrc) {
+        showToast(`Audio preview not available yet for "${currentTrack.title}".`);
+        return;
+      }
+      if (audioPlayer.paused) await playCurrentTrack();
+      else audioPlayer.pause();
+    }
+
+    async function playCurrentTrack() {
+      try {
+        await audioPlayer.play();
+      } catch (error) {
+        console.error('Audio playback failed:', error);
+        showToast(`Could not play "${currentTrack.title}". Check the audio file and try again.`);
+      }
+    }
+
+    function setPlayState(playing) {
+      isPlaying = playing;
+      stickyPlayIcon.classList.toggle('fa-pause', playing);
+      stickyPlayIcon.classList.toggle('fa-play', !playing);
+      stickyPlayIcon.classList.toggle('ml-0.5', !playing);
+      playerDiscIcon.classList.toggle('fa-spin', playing);
+      const workPlayIcon = document.getElementById('work-play-icon-0');
+      workPlayIcon.classList.toggle('fa-pause', playing && currentTrackIndex === 0);
+      workPlayIcon.classList.toggle('fa-play', !(playing && currentTrackIndex === 0));
+      workPlayIcon.classList.toggle('ml-0.5', !(playing && currentTrackIndex === 0));
+    }
+
+    function formatTime(seconds) {
+      const totalSeconds = Math.floor(seconds);
+      const mins = Math.floor(totalSeconds / 60);
+      const secs = totalSeconds % 60;
+      return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    }
+
+    function updateProgressUI() {
+      const duration = Number.isFinite(audioPlayer.duration) ? audioPlayer.duration : 0;
+      const currentTime = Number.isFinite(audioPlayer.currentTime) ? audioPlayer.currentTime : 0;
+      const pct = duration > 0 ? Math.min((currentTime / duration) * 100, 100) : 0;
+      stickyProgress.style.width = pct + '%';
+      playerCurrentTime.innerText = formatTime(currentTime);
+    }
+
+    function seekGlobalPlayer(e) {
+      if (!Number.isFinite(audioPlayer.duration) || audioPlayer.duration <= 0) return;
+      const rect = e.currentTarget.getBoundingClientRect();
+      if (rect.width <= 0) return;
+      const pct = Math.max(0, Math.min((e.clientX - rect.left) / rect.width, 1));
+      audioPlayer.currentTime = audioPlayer.duration * pct;
+    }
+
+    function nextTrack() { selectTrack((currentTrackIndex + 1) % playlist.length); }
+
+    function prevTrack() { selectTrack((currentTrackIndex - 1 + playlist.length) % playlist.length); }
+
+    function adjustVolume(val) { audioPlayer.volume = Number(val) / 100; }
+    function triggerBuy(beatName) { showToast(`Secure checkout initiated for license: "${beatName}"`); }
+
+    audioPlayer.volume = 0.8;
+    audioPlayer.addEventListener('play', () => setPlayState(true));
+    audioPlayer.addEventListener('pause', () => setPlayState(false));
+    audioPlayer.addEventListener('timeupdate', updateProgressUI);
+    audioPlayer.addEventListener('loadedmetadata', () => {
+      if (!Number.isFinite(audioPlayer.duration)) return;
+      const duration = formatTime(audioPlayer.duration);
+      currentTrack.duration = duration;
+      playerTotalDuration.innerText = duration;
+      const workDuration = document.getElementById('work-duration-0');
+      if (currentTrackIndex === 0) workDuration.innerText = duration;
+      updateProgressUI();
+    });
+    audioPlayer.addEventListener('ended', () => {
+      audioPlayer.currentTime = 0;
+      updateProgressUI();
+    });
+    audioPlayer.addEventListener('error', () => {
+      setPlayState(false);
+      showToast(`Could not load audio for "${currentTrack.title}".`);
+    });
+
+    function openModal(imgSrc, caption) {
+      const modal = document.getElementById('image-modal');
+      document.getElementById('modal-img').src = imgSrc;
+      document.getElementById('modal-caption').innerText = caption;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('image-modal');
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+    }
+
+    function handleBooking(e) {
+      e.preventDefault();
+      const name = document.getElementById('name').value;
+      const service = document.getElementById('service').value;
+      const date = document.getElementById('date').value;
+      showToast(`Success! Booking request received for ${name} (${service} on ${date}).`);
+      document.getElementById('booking-form').reset();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-message');
+      toastMsg.innerText = message;
+      toast.classList.remove('-translate-y-10', 'opacity-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.add('-translate-y-10', 'opacity-0'), 3500);
+    }
+
+    window.onload = () => updatePlayerUI();
+  </script>
+</body>
+</html>
