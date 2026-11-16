@@ -37,9 +37,18 @@
     .work-art::before,.work-art::after { position:absolute; content:""; border:1px solid rgba(248,206,10,0.55); border-radius:50%; }
     .work-art::before { width:68%; aspect-ratio:1; top:12%; right:-12%; }
     .work-art::after { width:48%; aspect-ratio:1; top:22%; right:-2%; border-color:rgba(248,206,10,0.3); }
-    .work-art-rajnitee { background:radial-gradient(ellipse at 75% 30%,rgba(248,206,10,0.42),transparent 35%),linear-gradient(145deg,#453411,#15110a 65%,#080808); }
-    .work-art-shadows { background:radial-gradient(ellipse at 35% 45%,rgba(136,92,190,0.5),transparent 38%),linear-gradient(145deg,#252033,#121018 65%,#080808); }
-    .work-art-apex { background:radial-gradient(ellipse at 68% 58%,rgba(190,54,38,0.55),transparent 34%),linear-gradient(145deg,#371c18,#17100f 65%,#080808); }
+    .work-art-rajnitee {
+      background: linear-gradient(0deg, rgba(0,0,0,.65), transparent),
+        url("assets/images/rajnitee.jpg") center/cover no-repeat;
+    }
+    .work-art-shadows {
+      background: linear-gradient(0deg, rgba(0,0,0,.65), transparent),
+        url("assets/images/shadows.jpg") center/cover no-repeat;
+    }
+    .work-art-apex {
+      background: linear-gradient(0deg, rgba(0,0,0,.65), transparent),
+        url("assets/images/apex.jpg") center/cover no-repeat;
+    }
     .work-art-title { position:absolute; z-index:1; right:1.25rem; bottom:1.25rem; left:1.25rem; color:white; font-size:clamp(1.25rem,2vw,1.8rem); font-weight:900; line-height:1; letter-spacing:-0.06em; text-transform:uppercase; text-shadow:0 2px 18px #000; }
     .work-art-index { position:absolute; z-index:1; top:1.25rem; left:1.25rem; color:#f8ce0a; font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.12em; }
     .works-carousel-controls { display:flex; justify-content:flex-end; gap:.75rem; margin-top:1.5rem; }
@@ -336,12 +345,12 @@
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
     const playlist = [
-      { title: 'Rajnitee', genre: 'Hip-Hop • Apu Nandy', audioSrc: 'assets\\files\\rajnitee 9-28.mp3' },
-      { title: 'Shadows in Stereo', genre: 'Alternative R&B • Lyra Moon', duration: '2:58', seconds: 178 },
-      { title: 'Apex Predator', genre: 'Hard Trap • Yung Cipher', duration: '2:40', seconds: 160 },
-      { title: 'Cybernetic Wave', genre: 'Dark Trap • 140 BPM', duration: '2:45', seconds: 165 },
-      { title: 'Obsidian Drill', genre: 'UK Drill • 142 BPM', duration: '3:12', seconds: 192 },
-      { title: 'Neon Lofi Daze', genre: 'Lofi R&B • 85 BPM', duration: '2:30', seconds: 150 },
+      { title: 'Rajnitee', genre: 'Hip-Hop • Apu Nandy', audioSrc: 'assets/files/rajnitee.mp3', duration: '2:58', seconds: 178 },
+      { title: 'Shadows in Stereo', genre: 'Alternative R&B • Lyra Moon', audioSrc: 'assets/files/shadows-in-stereo.mp3', duration: '2:58', seconds: 178 },
+      { title: 'Apex Predator', genre: 'Hard Trap • Yung Cipher', audioSrc: 'assets/files/BD%201-30.mp3', duration: '2:40', seconds: 160 },
+      { title: 'Cybernetic Wave', genre: 'Dark Trap • 140 BPM', audioSrc: 'assets/files/cybernetic-wave.mp3', duration: '2:45', seconds: 165 },
+      { title: 'Obsidian Drill', genre: 'UK Drill • 142 BPM', audioSrc: 'assets/files/obsidian-drill.mp3', duration: '3:12', seconds: 192 },
+      { title: 'Neon Lofi Daze', genre: 'Lofi R&B • 85 BPM', audioSrc: 'assets/files/neon-lofi-daze.mp3', duration: '2:30', seconds: 150 },
       { title: 'Subterranean Bass', genre: 'Phonk • 130 BPM', duration: '2:55', seconds: 175 }
     ];
 
