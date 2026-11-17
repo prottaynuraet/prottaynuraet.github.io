@@ -242,6 +242,112 @@
     </div>
   </section>
 
+  <!-- ================= PRODUCERS CAROUSEL SECTION ================= -->
+<section id="producers" class="py-24 px-6 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+        <!-- Section Header & Navigation Arrows -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+                <span class="text-[#f8ce0a] text-xs font-bold tracking-[0.2em] uppercase block mb-2">The Minds Behind The Sound</span>
+                <h2 class="text-3xl md:text-5xl font-bold text-white">Meet The <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#f8ce0a] to-[#d4ab08]">Producers</span></h2>
+            </div>
+
+            <!-- Carousel Controls -->
+            <div class="flex items-center space-x-3">
+                <button onclick="scrollProducers(-1)" aria-label="Previous Producer"
+                        class="w-12 h-12 rounded-full border border-white/15 bg-white/5 hover:bg-[#f8ce0a] hover:text-black hover:border-[#f8ce0a] text-white flex items-center justify-center transition-all duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+                <button onclick="scrollProducers(1)" aria-label="Next Producer"
+                        class="w-12 h-12 rounded-full border border-white/15 bg-white/5 hover:bg-[#f8ce0a] hover:text-black hover:border-[#f8ce0a] text-white flex items-center justify-center transition-all duration-300">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Horizontal Carousel Track -->
+        <div id="producers-carousel" class="flex gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-4">
+            
+            <!-- Producer Card 1 -->
+            <div class="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-start glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-[#f8ce0a]/50 transition-all duration-300 group flex-shrink-0">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=600&auto=format&fit=crop" 
+                         alt="Producer 1" 
+                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/20 to-transparent"></div>
+                    <span class="absolute bottom-4 left-5 text-xs font-semibold px-3 py-1 rounded-full bg-[#f8ce0a]/20 text-[#f8ce0a] border border-[#f8ce0a]/30 backdrop-blur-md">
+                        Lead Producer & Mixing
+                    </span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white group-hover:text-[#f8ce0a] transition-colors">Prottay Nuraet</h3>
+                    <p class="text-white/60 text-sm mt-2 leading-relaxed">
+                        Specializes in hard-hitting hip-hop beats, analog vocal chains, and spatial mastering with 8+ years of studio experience.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Producer Card 2 -->
+            <div class="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-start glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-[#f8ce0a]/50 transition-all duration-300 group flex-shrink-0">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=600&auto=format&fit=crop" 
+                         alt="Producer 2" 
+                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/20 to-transparent"></div>
+                    <span class="absolute bottom-4 left-5 text-xs font-semibold px-3 py-1 rounded-full bg-[#f8ce0a]/20 text-[#f8ce0a] border border-[#f8ce0a]/30 backdrop-blur-md">
+                        Sound Designer & Synth
+                    </span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white group-hover:text-[#f8ce0a] transition-colors">Producer Name 2</h3>
+                    <p class="text-white/60 text-sm mt-2 leading-relaxed">
+                        Crafts atmospheric textures, custom synth patches, and modern pop arrangements tailored for vocalists.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Producer Card 3 -->
+            <div class="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-start glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-[#f8ce0a]/50 transition-all duration-300 group flex-shrink-0">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=600&auto=format&fit=crop" 
+                         alt="Producer 3" 
+                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/20 to-transparent"></div>
+                    <span class="absolute bottom-4 left-5 text-xs font-semibold px-3 py-1 rounded-full bg-[#f8ce0a]/20 text-[#f8ce0a] border border-[#f8ce0a]/30 backdrop-blur-md">
+                        Recording Engineer
+                    </span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white group-hover:text-[#f8ce0a] transition-colors">Producer Name 3</h3>
+                    <p class="text-white/60 text-sm mt-2 leading-relaxed">
+                        Expert in live guitar tracking, acoustic drum miking, and clean vocal comping for indie and alternative artists.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Producer Card 4 (Duplicate this block to add more producers) -->
+            <div class="min-w-[280px] sm:min-w-[320px] md:min-w-[350px] snap-start glass-panel rounded-2xl overflow-hidden border border-white/10 hover:border-[#f8ce0a]/50 transition-all duration-300 group flex-shrink-0">
+                <div class="relative h-72 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=600&auto=format&fit=crop" 
+                         alt="Producer 4" 
+                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b0b] via-[#0b0b0b]/20 to-transparent"></div>
+                    <span class="absolute bottom-4 left-5 text-xs font-semibold px-3 py-1 rounded-full bg-[#f8ce0a]/20 text-[#f8ce0a] border border-[#f8ce0a]/30 backdrop-blur-md">
+                        Mastering & Post
+                    </span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white group-hover:text-[#f8ce0a] transition-colors">Producer Name 4</h3>
+                    <p class="text-white/60 text-sm mt-2 leading-relaxed">
+                        Delivers streaming-ready loudness, crisp stereo imaging, and analog warmth across all digital platforms.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
   <section id="beats" class="py-24 reveal">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col md:flex-row md:items-end justify-between mb-16">
