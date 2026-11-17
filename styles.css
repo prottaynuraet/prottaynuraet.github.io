@@ -397,24 +397,6 @@ button:focus-visible {
   font-size: 0.8em;
 }
 
-    /* Hide scrollbar for clean minimal carousel */
-    .no-scrollbar::-webkit-scrollbar {
-        display: none;
-    }
-    .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-    function scrollProducers(direction) {
-        const carousel = document.getElementById('producers-carousel');
-        const scrollAmount = 370; // Card width + gap
-        carousel.scrollBy({
-            left: direction * scrollAmount,
-            behavior: 'smooth'
-        });
-    }
-
-
 .site-footer {
   min-height: 100px;
   display: flex;
