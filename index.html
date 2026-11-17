@@ -60,6 +60,10 @@
       background: linear-gradient(0deg, rgba(0,0,0,.65), transparent),
         url("assets/images/art/alo chaya.jpg") center/cover no-repeat;
     }
+    .work-art-hanchitrack {
+      background: linear-gradient(0deg, rgba(0,0,0,.65), transparent),
+        url("assets/images/art/hanchi track.jpg") center/cover no-repeat;
+    }
     .work-art-title { position:absolute; z-index:1; right:1.25rem; bottom:1.25rem; left:1.25rem; color:white; font-size:clamp(1.25rem,2vw,1.8rem); font-weight:900; line-height:1; letter-spacing:-0.06em; text-transform:uppercase; text-shadow:0 2px 18px #000; }
     .work-art-index { position:absolute; z-index:1; top:1.25rem; left:1.25rem; color:#f8ce0a; font-family:"JetBrains Mono",monospace; font-size:.7rem; letter-spacing:.12em; }
     .works-carousel-controls { display:flex; justify-content:flex-end; gap:.75rem; margin-top:1.5rem; }
@@ -239,6 +243,18 @@
             <span class="text-xs font-mono text-gray-400">3:42</span>
           </div>
         </article>
+        <article class="work-card">
+          <div class="work-art work-art-hanchitrack" role="img" aria-label="assets/images/art/hanchi track.jpg">
+            <span class="work-art-index">06 / SINGLE</span><span class="work-art-title">Hanchi Track</span>
+          </div>
+          <div class="flex items-center justify-between mt-5 mb-2"><span class="text-[11px] font-mono text-gold uppercase tracking-widest">Full Production. Mix & Master</span><span class="text-xs text-gray-500 font-mono">Aug 2025</span></div>
+          <p class="text-xs text-gray-400 mb-4 font-mono">Hip Hop • Apal Hood</p>
+          <div class="flex items-center justify-between border-t border-cave-800 pt-4">
+            <button type="button" aria-label="Play hanchi track" onclick="playWorkTrack(5)" class="w-11 h-11 bg-gold text-cave-950 rounded-xl flex items-center justify-center font-bold hover:scale-105 transition-transform shadow-lg shadow-gold/20"><i id="work-play-icon-5" class="fa-solid fa-play ml-0.5"></i></button>
+            <span class="text-xs font-mono text-gray-400">2:17</span>
+          </div>
+        </article>
+
       </div>
       <div class="works-carousel-controls" aria-label="Carousel controls">
         <button type="button" aria-label="Scroll works left" onclick="scrollWorks(-1)"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
@@ -511,12 +527,12 @@
 
     // Playlist order: the first five tracks belong to Recent & Past Works.
     const playlist = [
-      { title: 'nesha nesha', genre: 'Hip-Hop • Apu Nandy', audioSrc: 'assets/files/tracks/nesha nesha.mp3', duration: '3:20', seconds: 200 },
-      { title: 'baljanggi', genre: 'Alternative Rock • The Rabuga', audioSrc: 'assets/files/tracks/baljanggi.mp3', duration: '4:54', seconds: 354 },
-      { title: 'asang la', genre: 'Pop • Tenkun', audioSrc: 'assets/files/tracks/asang la.mp3', duration: '3:42', seconds: 222 },
+      { title: 'Nesha Nesha', genre: 'Hip-Hop • Apu Nandy', audioSrc: 'assets/files/tracks/nesha nesha.mp3', duration: '3:20', seconds: 200 },
+      { title: 'Baljanggi', genre: 'Alternative Rock • The Rabuga', audioSrc: 'assets/files/tracks/baljanggi.mp3', duration: '4:54', seconds: 354 },
+      { title: 'Asang La', genre: 'Pop • Tenkun', audioSrc: 'assets/files/tracks/asang la.mp3', duration: '3:42', seconds: 222 },
       { title: 'Sare 12', genre: 'Hip-Hop • Pagol Storm', audioSrc: 'assets/files/tracks/sare 12.mp3', duration: '2:22', seconds: 144 },
-      { title: 'alo chaya', genre: 'POP • DIPTA', audioSrc: 'assets/files/tracks/alo chaya.mp3', duration: '3:42', seconds: 222 },
-      { title: 'Neon Lofi Daze', genre: 'Lofi R&B • 85 BPM', audioSrc: 'assets/files/neon-lofi-daze.mp3', duration: '2:30', seconds: 150 },
+      { title: 'Alo Chaya', genre: 'POP • DIPTA', audioSrc: 'assets/files/tracks/alo chaya.mp3', duration: '3:42', seconds: 222 },
+      { title: 'Hanchi Track', genre: 'Hip Hop • Apal Hood', audioSrc: 'assets/files/tracks/hanchi track.mp3', duration: '2:17', seconds: 137 },
       { title: 'Subterranean Bass', genre: 'Phonk • 130 BPM', duration: '2:55', seconds: 175 }
     ];
 
@@ -591,7 +607,7 @@
       stickyPlayIcon.classList.toggle('fa-play', !playing);
       stickyPlayIcon.classList.toggle('ml-0.5', !playing);
       playerDiscIcon.classList.toggle('fa-spin', playing);
-      playlist.slice(0, 3).forEach((track, index) => {
+      playlist.slice(0, 6).forEach((track, index) => {
         const workPlayIcon = document.getElementById(`work-play-icon-${index}`);
         if (!workPlayIcon) return;
         const isCurrentTrackPlaying = playing && currentTrackIndex === index;
