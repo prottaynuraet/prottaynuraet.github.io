@@ -20,6 +20,25 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+
+    @keyframes logoMarquee {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.logo-marquee-track {
+    width: max-content;
+    animation: logoMarquee 24s linear infinite;
+}
+
+/* Smoothly pause when someone hovers over a logo */
+.logo-marquee-track:hover {
+    animation-play-state: paused;
+}
     /* Global scrollbar, glow, and scroll-reveal effects. */
     ::-webkit-scrollbar { width:8px; }
     ::-webkit-scrollbar-track { background:#0a0a0a; }
@@ -145,7 +164,7 @@
       </div>
       <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white uppercase max-w-5xl mx-auto leading-tight">SHAPE YOUR <span class="text-gold gold-text-glow bg-gradient-to-r from-gold via-yellow-300 to-amber-500 bg-clip-text text-transparent">MASTERPIECE</span> IN THE CAVE.</h1>
       <div class="h-12 flex items-center justify-center my-6"><p id="typing-text" class="text-gold font-mono text-lg sm:text-2xl font-semibold tracking-wide border-r-2 border-gold pr-2 animate-pulse"></p></div>
-      <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10">Professional vocal recording, analog mixing, heavy-hitting beat production, and world-class mastering built for artists who demand ultimate acoustic fidelity.</p>
+      <p class="text-gray-400 text-base sm:text-xl max-w-2xl mx-auto font-light leading-relaxed mb-10">Step into Audio Cave for exclusive music production, professional mixing, and masterclass-level audio courses.</p>
       <div class="flex flex-col sm:flex-row items-center justify-center gap-5 max-w-md mx-auto">
         <a href="#booking" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-bold px-8 py-4 rounded-xl hover:brightness-110 transition-all shadow-xl shadow-gold/25 flex items-center justify-center space-x-3 text-base"><i class="fa-solid fa-microphone-lines"></i><span>Book Session Now</span></a>
         <a href="#works" class="w-full sm:w-auto bg-cave-900/80 hover:bg-cave-800 text-gray-200 border border-cave-700 font-semibold px-8 py-4 rounded-xl transition-all backdrop-blur-md flex items-center justify-center space-x-3 text-base"><i class="fa-solid fa-compact-disc text-gold"></i><span>Listen to Works</span></a>
@@ -159,6 +178,45 @@
       </div>
     </div>
   </section>
+
+  <!-- ================= CLIENT / PARTNER LOGO MARQUEE ================= -->
+<div class="w-full py-3.5 bg-white/[0.03] backdrop-blur-md border-y border-white/10 overflow-hidden relative select-none">
+    <!-- Subtle left & right fade masks -->
+    <div class="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-28 bg-gradient-to-r from-[#0b0b0b] to-transparent z-10"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-28 bg-gradient-to-l from-[#0b0b0b] to-transparent z-10"></div>
+
+    <div class="max-w-7xl mx-auto flex items-center">
+        <!-- Optional tiny label (remove this span if you want 100% full-width logos only) -->
+        <span class="hidden sm:inline-block text-[15px] font-semibold uppercase tracking-[0.22em] text-white/50 pl-6 pr-8 whitespace-nowrap z-20">
+            HAPPY TO SERVE
+        </span>
+
+        <!-- Scrolling Track Container -->
+        <div class="overflow-hidden flex-1 flex">
+            <div class="logo-marquee-track flex items-center gap-12 md:gap-16 pr-12 md:pr-16">
+                <!-- SET 1: Replace src="..." with your company/label logo URLs -->
+                <img src="assets/images/logo/walton.png" alt="Company 1" class="h-8 md:h-9 w-auto object-contain opacity-85 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/fresh.png" alt="Company 2" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/unicef.png" alt="Company 3" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/beximco.png" alt="Company 4" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/konka.png" alt="Company 5" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/shanta.png" alt="Company 6" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/gp.png" alt="Company 6" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/natura.png" alt="Company 6" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+
+                <!-- SET 2: Exact duplicate of SET 1 for a seamless infinite loop -->
+                <img src="assets/images/logo/walton.png" alt="Company 1" class="h-8 md:h-9 w-auto object-contain opacity-85 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/fresh.png" alt="Company 2" class="h-8 md:h-9 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/unicef.png" alt="Company 3" class="h-8 md:h-9 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/beximco.png" alt="Company 4" class="h-8 md:h-9 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/konka.png" alt="Company 5" class="h-8 md:h-9 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/shanta.png" alt="Company 6" class="h-8 md:h-9 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/gp.png" alt="Company 6" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+                <img src="assets/images/logo/natura.png" alt="Company 6" class="h-6 md:h-7 w-auto object-contain opacity-45 grayscale hover:grayscale-0 hover:opacity-100 transition duration-300">
+            </div>
+        </div>
+    </div>
+</div>
 
   <!-- About: studio philosophy, experience highlights, and featured room photo. -->
   <section id="about" class="py-24 bg-cave-900/60 border-t border-b border-cave-800 relative reveal">
