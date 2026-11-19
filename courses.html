@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Cave Academy | Music Production, Mixing &amp; Music Lessons</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        cave: {
+                            950: '#060606',
+                            900: '#0b0b0b',
+                            800: '#141414',
+                            700: '#1f1f1f',
+                            600: '#2e2e2e',
+                        },
+                        gold: {
+                            DEFAULT: '#f8ce0a',
+                            light: '#fde047',
+                            dark: '#caa305',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0b0b0b; }
+        ::-webkit-scrollbar-thumb { background: #1f1f1f; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #f8ce0a; }
+
+        /* Subtle Studio Grid Background */
+        .studio-grid {
+            background-image: radial-gradient(rgba(248, 206, 10, 0.045) 1px, transparent 0);
+            background-size: 28px 28px;
+        }
+
+        /* Glassmorphic Panel */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Gold Glow Effects */
+        .gold-glow {
+            box-shadow: 0 0 28px rgba(248, 206, 10, 0.22);
+        }
+        .gold-text-glow {
+            text-shadow: 0 0 18px rgba(248, 206, 10, 0.35);
+        }
+
+        /* Hide horizontal scrollbar on filter pills */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-cave-900 text-gray-100 font-sans selection:bg-gold selection:text-cave-950 studio-grid min-h-screen">
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="fixed top-24 right-4 sm:right-6 z-50 transform -translate-y-8 opacity-0 pointer-events-none transition-all duration-300 bg-cave-800 border border-gold text-white px-5 py-3.5 rounded-xl shadow-2xl flex items-center space-x-3 max-w-sm">
+        <i class="fa-solid fa-circle-check text-gold text-lg shrink-0"></i>
+        <span id="toast-message" class="text-sm font-medium">Action completed!</span>
+    </div>
+
+    <!-- ================= 1. STICKY TOP NAVIGATION BAR ================= -->
+    <header class="sticky top-0 left-0 right-0 z-40 bg-cave-900/90 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-3">
+            
+            <!-- Brand Logo & Wordmark -->
+            <a href="index.html" class="flex items-center space-x-3 group shrink-0">
+                <div class="w-10 h-10 sm:w-11 sm:h-11 rounded-xl bg-cave-950 border border-gold/40 flex items-center justify-center overflow-hidden group-hover:border-gold transition-colors">
+                    <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-7hNyEKf7PBvLDSjXZZX4p-v3VttvecaGwXd3xdWjHixIREn4e8IOE_95rORhCW_kK6uvqBbINbt1CiSWdwdoPJvGe-3G8ePMzf3vZNTpmAOH-axMddPYzHdDZVEWWNFMjefl2G_z8OjHSeufUrX9lSGoLZOTT-cEZJMfYRoyoJ7xfJXmL020-opfDp-r/s1600/Audio%20cave.jpg" 
+                         onerror="this.onerror=null; this.src='https://placehold.co/100x100/121212/f8ce0a?text=AC';"
+                         alt="Audio Cave Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col">
+                    <span class="text-lg sm:text-xl font-extrabold tracking-wider uppercase text-white leading-none">
+                        AUDIO <span class="text-gold gold-text-glow">CAVE</span>
+                    </span>
+                    <span class="text-[10px] text-gold/90 font-mono tracking-widest uppercase mt-1">Academy &bull; Happy to Serve</span>
+                </div>
+            </a>
+
+            <!-- Desktop Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-7 text-sm font-medium">
+                <a href="index.html" class="text-gray-300 hover:text-gold transition-colors">Main Studio</a>
+                <a href="beats.html" class="text-gray-300 hover:text-gold transition-colors">Beat Store</a>
+                <a href="courses.html" class="text-gold font-bold border-b-2 border-gold pb-1">Courses &amp; Academy</a>
+                <a href="#formats" class="text-gray-300 hover:text-gold transition-colors">Mentorship</a>
+            </nav>
+
+            <!-- Right CTA & Mobile Menu Button -->
+            <div class="flex items-center space-x-2.5 sm:space-x-3">
+                <a href="#enrollment" class="bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-gold/20 whitespace-nowrap">
+                    Enroll Now
+                </a>
+                <button id="mobile-menu-btn" aria-label="Toggle Menu" class="md:hidden w-10 h-10 rounded-xl bg-white/5 border border-white/10 text-gray-200 hover:text-gold hover:border-gold/50 flex items-center justify-center transition-colors">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Persistent Quick-Link Bar (Ensures Main Studio, Beat Store & Courses are always accessible on mobile) -->
+        <div class="md:hidden border-t border-white/10 bg-cave-950/90 px-4 py-2 flex items-center justify-around text-xs font-semibold">
+            <a href="index.html" class="text-gray-300 hover:text-gold transition-colors py-1">Main Studio</a>
+            <span class="text-white/15">|</span>
+            <a href="beats.html" class="text-gray-300 hover:text-gold transition-colors py-1">Beat Store</a>
+            <span class="text-white/15">|</span>
+            <a href="courses.html" class="text-gold font-bold py-1">Courses &amp; Academy</a>
+        </div>
+
+        <!-- Mobile Dropdown Drawer -->
+        <div id="mobile-menu" class="hidden md:hidden bg-cave-950/95 backdrop-blur-xl border-b border-white/10 px-6 py-5 space-y-3.5">
+            <a href="#programs" class="block text-gray-200 hover:text-gold text-base font-medium py-1 mobile-link">Browse All Courses</a>
+            <a href="#formats" class="block text-gray-200 hover:text-gold text-base font-medium py-1 mobile-link">Learning Formats &amp; 1-on-1</a>
+            <a href="#enrollment" class="block text-gold font-semibold text-base py-1 mobile-link">Enroll / Book Lessons</a>
+        </div>
+    </header>
+
+    <!-- ================= 2. HERO SECTION ================= -->
+    <section class="relative pt-14 pb-12 sm:pt-20 sm:pb-16 px-4 sm:px-6 lg:px-8 border-b border-white/10 overflow-hidden">
+        <!-- Ambient Radial Glow -->
+        <div class="pointer-events-none absolute -top-28 left-1/2 -translate-x-1/2 w-[620px] h-[280px] bg-gold/10 blur-[120px] rounded-full"></div>
+
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <!-- Eyebrow Badge -->
+            <div class="inline-flex items-center space-x-2 px-4 py-1.5 rounded-full bg-white/5 border border-gold/30 text-gold text-xs font-mono tracking-widest uppercase mb-6">
+                <span class="w-2 h-2 rounded-full bg-gold animate-pulse"></span>
+                <span>AUDIO CAVE ACADEMY &bull; MASTER THE CRAFT</span>
+            </div>
+
+            <!-- Bold Headline -->
+            <h1 class="text-3xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight leading-tight max-w-4xl mx-auto">
+                Master Music Production, <span class="text-transparent bg-clip-text bg-gradient-to-r from-gold via-yellow-300 to-amber-500 gold-text-glow">Mixing &amp; Musicality.</span>
+            </h1>
+
+            <!-- Subheadline -->
+            <p class="text-gray-400 text-sm sm:text-lg max-w-2xl mx-auto mt-5 leading-relaxed">
+                Step inside our studio workflow with hands-on video tutorials, stem-by-stem mixing &amp; mastering breakdowns, and structured music lessons covering guitar, chord theory, and modern arrangement.
+            </p>
+
+            <!-- Action CTAs -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5 mt-8">
+                <a href="#programs" class="w-full sm:w-auto bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-extrabold px-7 py-3.5 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-gold/25 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                    <span>Explore Courses</span>
+                </a>
+                <button onclick="openCourseModal(0)" class="w-full sm:w-auto glass-panel hover:bg-white/10 text-white border border-white/15 hover:border-gold/50 font-semibold px-7 py-3.5 rounded-xl transition-all flex items-center justify-center space-x-2 text-sm sm:text-base">
+                    <i class="fa-solid fa-circle-play text-gold"></i>
+                    <span>Watch Free Sample Lesson</span>
+                </button>
+            </div>
+
+            <!-- Quick Stats Strip -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto mt-12">
+                <div class="glass-panel border border-white/10 rounded-2xl px-5 py-4 flex items-center justify-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-semibold text-gray-200 text-left">100% Practical Studio Workflows</span>
+                </div>
+                <div class="glass-panel border border-white/10 rounded-2xl px-5 py-4 flex items-center justify-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-folder-open"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-semibold text-gray-200 text-left">Downloadable Project Stems &amp; Presets</span>
+                </div>
+                <div class="glass-panel border border-white/10 rounded-2xl px-5 py-4 flex items-center justify-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-gold/10 border border-gold/30 text-gold flex items-center justify-center shrink-0">
+                        <i class="fa-solid fa-headset"></i>
+                    </div>
+                    <span class="text-xs sm:text-sm font-semibold text-gray-200 text-left">1-on-1 Mentorship Available</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 3. INTERACTIVE CATEGORY FILTER & COURSE CATALOG GRID ================= -->
+    <section id="programs" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            
+            <!-- Header & Filter Tabs -->
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
+                <div>
+                    <span class="text-gold font-mono text-xs tracking-[0.2em] uppercase">Curriculum &amp; Training</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Courses &amp; Music Lessons</h2>
+                </div>
+
+                <!-- Filter Tabs -->
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1" id="category-tabs">
+                    <button onclick="setCourseCategory('All Programs', this)" class="cat-tab active bg-gold text-cave-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all">
+                        All Programs
+                    </button>
+                    <button onclick="setCourseCategory('Music Production', this)" class="cat-tab bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all">
+                        Music Production
+                    </button>
+                    <button onclick="setCourseCategory('Mix & Mastering', this)" class="cat-tab bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all">
+                        Mix &amp; Mastering
+                    </button>
+                    <button onclick="setCourseCategory('Music Lessons', this)" class="cat-tab bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all">
+                        Music Lessons
+                    </button>
+                </div>
+            </div>
+
+            <!-- Course Cards Grid (Populated via JS) -->
+            <div id="courses-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7">
+                <!-- Course cards rendered dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 4. LEARNING FORMATS & MENTORSHIP COMPARISON ================= -->
+    <section id="formats" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/10 bg-cave-950/60">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-gold font-mono text-xs tracking-[0.2em] uppercase">Flexible Learning Paths</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Choose How You Learn</h2>
+                <p class="text-gray-400 text-sm sm:text-base mt-3">Whether you prefer learning at midnight at your own pace or getting live feedback on your mixes and guitar playing, we have a track for you.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-7 items-stretch">
+                
+                <!-- Format 1: Self-Paced Video Courses -->
+                <div class="glass-panel border border-white/10 hover:border-gold/50 rounded-2xl p-7 flex flex-col justify-between transition-all">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-gold flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-film"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-wider text-gray-400">On-Demand HD Video</span>
+                        <h3 class="text-xl font-bold text-white mt-1">Self-Paced Video Courses</h3>
+                        <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                            Watch crystal-clear, over-the-shoulder studio breakdowns on your own schedule with lifetime access to all updates.
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 mt-6 pt-5">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Lifetime Access on Mobile &amp; Desktop</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Downloadable DAW Templates &amp; Presets</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Raw Multitrack Stems for Practice</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Private Student Community Access</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectFormatAndScroll('Self-Paced Recorded', 'Modern Hip-Hop & Pop Beat Production')" class="mt-8 w-full py-3.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 text-white font-bold text-sm transition-all">
+                        Browse Video Courses
+                    </button>
+                </div>
+
+                <!-- Format 2: 1-on-1 Live Coaching & Lessons (Highlighted) -->
+                <div class="glass-panel border-2 border-gold rounded-2xl p-7 flex flex-col justify-between relative gold-glow transform md:-translate-y-2">
+                    <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-gold text-cave-950 font-extrabold text-[11px] uppercase tracking-widest px-4 py-1 rounded-full shadow-lg">
+                        Personalized Coaching
+                    </div>
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-gold/15 border border-gold/40 text-gold flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-guitar"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-wider text-gold">Zoom or In-Studio Dhaka</span>
+                        <h3 class="text-xl font-bold text-white mt-1">1-on-1 Live Coaching &amp; Lessons</h3>
+                        <p class="text-gray-300 text-sm mt-3 leading-relaxed">
+                            Direct private sessions tailored to your skill level—covering guitar, music theory, beat critique, or live mix surgery.
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-200 border-t border-white/10 mt-6 pt-5">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Custom Weekly Schedule (Online / Dhaka)</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Live Screen-Share &amp; High-Res Audio</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Direct Feedback on Your Own Tracks</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Session Recordings &amp; Custom Exercises</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectFormatAndScroll('1-on-1 Live Online', 'Guitar for Modern Producers & Songwriters')" class="mt-8 w-full py-3.5 rounded-xl bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-extrabold text-sm hover:brightness-110 transition-all shadow-lg shadow-gold/25">
+                        Book 1-on-1 Session
+                    </button>
+                </div>
+
+                <!-- Format 3: All-Access Studio Pass -->
+                <div class="glass-panel border border-white/10 hover:border-gold/50 rounded-2xl p-7 flex flex-col justify-between transition-all">
+                    <div>
+                        <div class="w-12 h-12 rounded-xl bg-white/5 border border-white/10 text-gold flex items-center justify-center text-xl mb-5">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <span class="text-xs font-mono uppercase tracking-wider text-gray-400">Complete Academy Bundle</span>
+                        <h3 class="text-xl font-bold text-white mt-1">All-Access Studio Pass</h3>
+                        <p class="text-gray-400 text-sm mt-3 leading-relaxed">
+                            Unlock every production, mixing, mastering, and theory course in Audio Cave Academy plus monthly track reviews.
+                        </p>
+                        <ul class="space-y-3 text-sm text-gray-300 border-t border-white/10 mt-6 pt-5">
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Full Access to All 6+ Academy Courses</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Monthly 1-on-1 Mix &amp; Master Feedback</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Exclusive Audio Cave Sample &amp; Preset Vault</li>
+                            <li class="flex items-center gap-2.5"><i class="fa-solid fa-check text-gold text-xs"></i> Official Certificate of Completion</li>
+                        </ul>
+                    </div>
+                    <button onclick="selectFormatAndScroll('Self-Paced Recorded', 'Complete Bedroom-to-Pro Studio Bundle')" class="mt-8 w-full py-3.5 rounded-xl bg-white/5 hover:bg-white/15 border border-white/15 text-white font-bold text-sm transition-all">
+                        Get All-Access Pass
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 5. DIRECT COURSE ENROLLMENT & LESSON BOOKING FORM ================= -->
+    <section id="enrollment" class="py-16 sm:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/10">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <span class="text-gold font-mono text-xs tracking-[0.2em] uppercase">Start Your Journey</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">Course Enrollment &amp; Lesson Booking</h2>
+                <p class="text-gray-400 text-sm sm:text-base mt-3 max-w-xl mx-auto">
+                    Select your course or private lesson package below. We will send your enrollment link, payment instructions (bKash / Nagad / Card / Bank), and instant access details.
+                </p>
+            </div>
+
+            <div class="glass-panel border border-white/15 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <form id="enrollment-form" onsubmit="handleEnrollmentSubmit(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="student-name" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Student Name *</label>
+                            <input type="text" id="student-name" required placeholder="e.g. Tariq Hasan"
+                                   class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none transition-colors">
+                        </div>
+                        <div>
+                            <label for="student-contact" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Email or Phone (WhatsApp) *</label>
+                            <input type="text" id="student-contact" required placeholder="you@email.com or +880 17..."
+                                   class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none transition-colors">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="selected-course" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Selected Course / Lesson</label>
+                            <select id="selected-course"
+                                    class="w-full bg-cave-950/90 border border-gold/40 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-gold font-semibold focus:outline-none transition-colors">
+                                <!-- Populated via JS to match coursesCatalog -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="learning-format" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Preferred Format</label>
+                            <select id="learning-format"
+                                    class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-colors">
+                                <option value="Self-Paced Recorded">Self-Paced Recorded (Lifetime Access)</option>
+                                <option value="1-on-1 Live Online">1-on-1 Live Online (Zoom / Google Meet)</option>
+                                <option value="In-Studio Dhaka">In-Studio Dhaka (Audio Cave Studio)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label for="experience-level" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Current Experience Level</label>
+                            <select id="experience-level"
+                                    class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white focus:outline-none transition-colors">
+                                <option value="Complete Beginner">Complete Beginner (Just Starting)</option>
+                                <option value="Intermediate (Know Basics)">Intermediate (Know Basics / Using a DAW)</option>
+                                <option value="Advanced (Refining Pro Sound)">Advanced (Refining Commercial Sound)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="primary-daw" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">DAW / Instrument (Optional)</label>
+                            <input type="text" id="primary-daw" placeholder="e.g. FL Studio, Logic Pro, Ableton, Guitar..."
+                                   class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none transition-colors">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="student-goals" class="block text-xs font-mono uppercase tracking-wider text-gray-400 mb-2">Learning Goals &amp; Preferred Schedule</label>
+                        <textarea id="student-goals" rows="3" placeholder="Tell us what you want to achieve (e.g., mixing clean vocals, learning guitar chords for beats, mastering loudness)..."
+                                  class="w-full bg-cave-950/90 border border-white/10 focus:border-gold rounded-xl px-4 py-3.5 text-sm text-white placeholder-gray-600 focus:outline-none transition-colors"></textarea>
+                    </div>
+
+                    <!-- Primary Submit + Quick WhatsApp Enrollment Button -->
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
+                        <button type="submit" class="flex-1 bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-extrabold py-4 px-6 rounded-xl hover:brightness-110 transition-all shadow-lg shadow-gold/25 flex items-center justify-center space-x-2 text-sm sm:text-base">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                            <span>Complete Enrollment Request</span>
+                        </button>
+                        <button type="button" onclick="enrollViaWhatsApp()" class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/40 font-bold py-4 px-5 rounded-xl transition-all flex items-center justify-center space-x-2 text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                            <span>Enroll via WhatsApp</span>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Confirmation State -->
+                <div id="enrollment-confirmation" class="hidden text-center py-8 space-y-4">
+                    <div class="w-16 h-16 rounded-full bg-gold/15 border border-gold text-gold flex items-center justify-center mx-auto text-2xl">
+                        <i class="fa-solid fa-check"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-white">Enrollment Request Submitted!</h3>
+                    <p id="enrollment-summary" class="text-gray-300 text-sm max-w-md mx-auto leading-relaxed"></p>
+                    <div class="pt-3 flex flex-wrap justify-center gap-3">
+                        <button onclick="resetEnrollmentForm()" class="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-5 py-3 rounded-xl transition-colors">
+                            Enroll in Another Course
+                        </button>
+                        <button onclick="enrollViaWhatsApp()" class="bg-emerald-600/20 text-emerald-400 border border-emerald-500/40 text-xs font-bold px-5 py-3 rounded-xl transition-colors">
+                            Confirm Instantly on WhatsApp
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= 6. FOOTER ================= -->
+    <footer class="border-t border-white/10 py-10 px-4 sm:px-6 lg:px-8 text-center sm:text-left">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <div class="flex items-center space-x-2">
+                <span class="font-extrabold text-white uppercase tracking-wider">AUDIO <span class="text-gold">CAVE</span></span>
+                <span>&bull; Academy, Music Production &amp; Audio Engineering</span>
+            </div>
+            <div class="flex items-center space-x-5">
+                <a href="index.html" class="hover:text-gold transition-colors">Main Studio</a>
+                <a href="beats.html" class="hover:text-gold transition-colors">Beat Store</a>
+                <a href="courses.html" class="text-gold font-semibold">Courses &amp; Academy</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= INTERACTIVE COURSE SYLLABUS & VIDEO PREVIEW MODAL ================= -->
+    <div id="course-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 overflow-y-auto" onclick="closeCourseModal()">
+        <div class="relative w-full max-w-3xl bg-cave-900 border border-white/15 rounded-3xl shadow-2xl overflow-hidden my-auto" onclick="event.stopPropagation()">
+            
+            <!-- Modal Top Header -->
+            <div class="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-cave-950/80">
+                <div class="flex items-center space-x-2.5 min-w-0">
+                    <span id="modal-category-badge" class="px-2.5 py-1 rounded-md bg-gold/15 text-gold text-xs font-mono uppercase shrink-0">Category</span>
+                    <h3 id="modal-course-title" class="text-base sm:text-lg font-bold text-white truncate">Course Title</h3>
+                </div>
+                <button onclick="closeCourseModal()" aria-label="Close Preview Modal" class="w-9 h-9 rounded-full bg-white/5 hover:bg-gold hover:text-cave-950 text-gray-300 flex items-center justify-center transition-colors shrink-0 ml-2">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Modal Body -->
+            <div class="p-5 sm:p-7 max-h-[82vh] overflow-y-auto space-y-6">
+                
+                <!-- HTML5 Sample Lesson / Trailer Video Player -->
+                <div class="relative rounded-2xl overflow-hidden bg-black border border-white/10 aspect-video">
+                    <video id="modal-video-player" controls playsinline class="w-full h-full object-cover" poster="">
+                        <source id="modal-video-source" src="" type="video/mp4">
+                        Your browser does not support HTML5 video playback.
+                    </video>
+                </div>
+
+                <!-- Course Quick Summary & Price Bar -->
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/[0.03] border border-white/10 rounded-2xl p-4">
+                    <div>
+                        <p id="modal-course-desc" class="text-sm text-gray-300 leading-relaxed"></p>
+                        <div class="flex flex-wrap items-center gap-3 mt-2 text-xs font-mono text-gray-400">
+                            <span id="modal-course-meta"></span>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-col items-center sm:items-end justify-between gap-2 shrink-0 border-t sm:border-t-0 pt-3 sm:pt-0 border-white/10">
+                        <div class="text-right">
+                            <div id="modal-price-bdt" class="text-xl font-extrabold text-gold">৳4,500</div>
+                            <div id="modal-price-usd" class="text-xs font-mono text-gray-400">$45 USD</div>
+                        </div>
+                        <button id="modal-enroll-btn" class="bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-extrabold text-xs px-5 py-2.5 rounded-xl hover:brightness-110 transition-all whitespace-nowrap">
+                            Enroll Now
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Expandable Module-by-Module Curriculum Breakdown -->
+                <div>
+                    <h4 class="text-xs font-mono uppercase tracking-widest text-gold mb-3">Module-by-Module Curriculum</h4>
+                    <div id="modal-syllabus-list" class="space-y-2.5">
+                        <!-- Accordion modules injected via JS -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= JAVASCRIPT COURSE DATA & INTERACTIVE LOGIC ================= -->
+    <script>
+        /* =====================================================================
+           CUSTOMIZE YOUR COURSES & TUTORIALS HERE:
+           - Replace `previewVideoUrl` with your own GitHub raw .mp4 or hosted trailer URL.
+           - Replace `thumbnail` with your course cover image URLs.
+           - Edit `priceBDT` and `priceUSD` as needed.
+           ===================================================================== */
+        const coursesCatalog = [
+            {
+                id: 0,
+                title: "Modern Hip-Hop & Pop Beat Production",
+                category: "Music Production",
+                level: "All Levels",
+                duration: "6.5 Hours",
+                lessonsCount: "24 HD Lessons",
+                priceBDT: "৳4,500",
+                priceUSD: "$45",
+                thumbnail: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                description: "Build radio-ready Hip-Hop and Pop instrumentals from a blank project. Learn groove-focused drum programming, sub-shaking 808 tuning, lush synth layering, and dynamic song arrangement.",
+                highlights: [
+                    "Drum bounce, swing & transient layering",
+                    "808 tuning, glide & low-end phase control",
+                    "Synth sound design & ear-candy transitions",
+                    "Includes 5 full DAW project files + drum kit"
+                ],
+                syllabus: [
+                    { module: "Module 1: Foundation & Drum Bounce", lessons: "Tempo selection, hi-hat rolls, pocket swing, and punchy kick/snare layering." },
+                    { module: "Module 2: Heavy 808s & Sub Bass", lessons: "Finding root notes, saturation chains, and carving space between kick and 808." },
+                    { module: "Module 3: Melodic Layering & Hooks", lessons: "Counter-melodies, synth textures, vocal chops, and avoiding frequency clutter." },
+                    { module: "Module 4: Full Arrangement & Beat Tagging", lessons: "Intro-to-outro energy arcs, transitions, and exporting stems for artists." }
+                ]
+            },
+            {
+                id: 1,
+                title: "Vocal Mixing & Analog Chain Mastery",
+                category: "Mix & Mastering",
+                level: "Intermediate",
+                duration: "5.5 Hours",
+                lessonsCount: "20 HD Lessons",
+                priceBDT: "৳5,000",
+                priceUSD: "$49",
+                thumbnail: "https://images.unsplash.com/photo-1516280440614-37939bbacd81?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                description: "Transform raw bedroom vocal recordings into glossy, upfront commercial vocals. Master surgical EQ, serial compression, natural pitch correction, and 3D reverb/delay depth.",
+                highlights: [
+                    "Subtractive EQ & harsh resonance control",
+                    "Serial compression (1176 + LA-2A style chains)",
+                    "Transparent vocal tuning & doubles alignment",
+                    "Includes raw vocal multitracks & channel presets"
+                ],
+                syllabus: [
+                    { module: "Module 1: Vocal Prep, Gain Staging & Tuning", lessons: "Breath control, clip gain leveling, and natural-sounding pitch correction." },
+                    { module: "Module 2: Tone Shaping & Compression", lessons: "Taming muddy low-mids, adding air at 10kHz+, and locking dynamic consistency." },
+                    { module: "Module 3: Depth, Reverb & Throw Delays", lessons: "Pre-delay math, ducking reverbs with sidechain, and wide stereo ad-libs." },
+                    { module: "Module 4: Sitting Vocals Inside a 2-Track Beat", lessons: "Dynamic EQ carving so vocals cut cleanly through heavy beats." }
+                ]
+            },
+            {
+                id: 2,
+                title: "Streaming-Ready Mastering Blueprint",
+                category: "Mix & Mastering",
+                level: "Intermediate",
+                duration: "4.0 Hours",
+                lessonsCount: "15 HD Lessons",
+                priceBDT: "৳4,000",
+                priceUSD: "$39",
+                thumbnail: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                description: "Deliver loud, punchy, translation-proof masters for Spotify, Apple Music, and YouTube without squashing transients or causing distortion.",
+                highlights: [
+                    "Mid/Side EQ & stereo width enhancement",
+                    "Bus compression & harmonic saturation",
+                    "True-peak limiting & LUFS loudness targets",
+                    "Car, phone & club speaker translation checks"
+                ],
+                syllabus: [
+                    { module: "Module 1: Mix Bus Audit & Headroom", lessons: "Identifying mix bottlenecks, crest factor analysis, and reference track matching." },
+                    { module: "Module 2: Tonal Balance & Mid/Side EQ", lessons: "Tightening mono low-end and opening stereo shimmer safely." },
+                    { module: "Module 3: Glue Compression & Clipping", lessons: "Soft-clipping transients before limiting for clean competitive loudness." },
+                    { module: "Module 4: Exporting Formats & Metadata", lessons: "24-bit WAV, 16-bit dithered CD masters, and streaming normalization rules." }
+                ]
+            },
+            {
+                id: 3,
+                title: "Music Theory & Chord Progressions for Producers",
+                category: "Music Lessons",
+                level: "Beginner",
+                duration: "5.0 Hours",
+                lessonsCount: "18 HD Lessons",
+                priceBDT: "৳3,500",
+                priceUSD: "$35",
+                thumbnail: "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoy.mp4",
+                description: "No boring classical rules—learn practical music theory directly inside your DAW piano roll. Write emotional chord voicings, memorable toplines, and break out of 4-bar loops.",
+                highlights: [
+                    "Major, Minor & Dorian scales in the piano roll",
+                    "7th, 9th & suspended chords for R&B and Pop",
+                    "Voice leading & bassline movement secrets",
+                    "Includes 50+ royalty-free MIDI chord packs"
+                ],
+                syllabus: [
+                    { module: "Module 1: Scales & Intervals Decoded", lessons: "Building any scale in seconds and understanding emotional tension vs. release." },
+                    { module: "Module 2: Lush Extended Chords", lessons: "Transforming basic triads into rich 7th, 9th, and neo-soul progressions." },
+                    { module: "Module 3: Writing Catchy Toplines", lessons: "Rhythmic motifs, call-and-response phrasing, and harmonizing melodies." },
+                    { module: "Module 4: Escaping the 4-Bar Loop", lessons: "Key changes, pre-chorus lifts, and bridge chord substitutions." }
+                ]
+            },
+            {
+                id: 4,
+                title: "Guitar for Modern Producers & Songwriters",
+                category: "Music Lessons",
+                level: "Beginner",
+                duration: "6.0 Hours",
+                lessonsCount: "22 HD Lessons",
+                priceBDT: "৳4,500",
+                priceUSD: "$45",
+                thumbnail: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                description: "Record authentic acoustic and electric guitar hooks for Trap, R&B, Lo-Fi, and Pop tracks. Covers movable chord shapes, fingerstyle picking, DI recording, and amp sim tone shaping.",
+                highlights: [
+                    "Movable R&B/Pop barre & triad chord shapes",
+                    "Percussive strumming & fingerpicking grooves",
+                    "Clean DI recording & amp sim tone crafting",
+                    "Layering double-tracked guitars in a dense mix"
+                ],
+                syllabus: [
+                    { module: "Module 1: Fretboard Essentials & Movable Chords", lessons: "Playing in any key using CAGED shapes and lush open-string voicings." },
+                    { module: "Module 2: Rhythm, Pocket & Fingerstyle", lessons: "Syncopated muting, R&B hammer-ons, and ambient melodic riffs." },
+                    { module: "Module 3: Studio Guitar Recording & Tone", lessons: "Mic placement for acoustic guitar and dialing warm electric amp sims." },
+                    { module: "Module 4: Producing Around Guitar Loops", lessons: "Chopping, pitching, and layering drums/808s around live guitar takes." }
+                ]
+            },
+            {
+                id: 5,
+                title: "Complete Bedroom-to-Pro Studio Bundle",
+                category: "Music Production",
+                level: "All Levels",
+                duration: "16+ Hours",
+                lessonsCount: "59 HD Lessons",
+                priceBDT: "৳9,500",
+                priceUSD: "$89",
+                thumbnail: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?q=80&w=700&auto=format&fit=crop",
+                previewVideoUrl: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                description: "Our flagship all-in-one bundle combining Beat Production, Vocal Mixing, and Streaming Mastering—plus full multitrack stems, vocal chains, and 1-on-1 track review.",
+                highlights: [
+                    "Includes Production + Vocal Mix + Mastering",
+                    "Save 30% vs. enrolling in individual courses",
+                    "Full DAW templates, MIDI packs & sample vault",
+                    "1-on-1 mix feedback session on your track"
+                ],
+                syllabus: [
+                    { module: "Part 1: Full Beat Production & Arrangement", lessons: "Complete 24-lesson Modern Hip-Hop & Pop production curriculum." },
+                    { module: "Part 2: Commercial Vocal Mixing Mastery", lessons: "Complete 20-lesson vocal editing, compression, and FX curriculum." },
+                    { module: "Part 3: Streaming Mastering Blueprint", lessons: "Complete 15-lesson mastering, loudness, and speaker translation system." },
+                    { module: "Bonus: 1-on-1 Track Critique & Preset Vault", lessons: "Personalized review of your song by Audio Cave engineers." }
+                ]
+            }
+        ];
+
+        /* =====================================================================
+           CUSTOMIZE YOUR WHATSAPP NUMBER FOR INSTANT ENROLLMENT (Digits only with country code)
+           ===================================================================== */
+        const STUDIO_WHATSAPP_NUMBER = "8801700000000";
+
+        let activeCategory = "All Programs";
+
+        // Mobile Navigation Toggle
+        const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuBtn.addEventListener("click", () => {
+            mobileMenu.classList.toggle("hidden");
+        });
+        document.querySelectorAll(".mobile-link").forEach(link => {
+            link.addEventListener("click", () => mobileMenu.classList.add("hidden"));
+        });
+
+        // Render Course Cards Grid
+        function renderCourses() {
+            const grid = document.getElementById("courses-grid");
+            const filtered = coursesCatalog.filter(course => {
+                if (activeCategory === "All Programs") return true;
+                if (course.id === 5 && (activeCategory === "Music Production" || activeCategory === "Mix & Mastering")) {
+                    return true;
+                }
+                return course.category === activeCategory;
+            });
+
+            grid.innerHTML = filtered.map(course => `
+                <article class="glass-panel border border-white/10 hover:border-gold rounded-2xl overflow-hidden flex flex-col justify-between transition-all duration-300 group shadow-xl">
+                    <div>
+                        <!-- Thumbnail Header -->
+                        <div class="relative h-48 overflow-hidden bg-cave-950">
+                            <img src="${course.thumbnail}" alt="${course.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-t from-cave-900 via-cave-900/30 to-transparent"></div>
+                            
+                            <!-- Top Badges -->
+                            <div class="absolute top-3.5 left-3.5 right-3.5 flex items-center justify-between gap-2">
+                                <span class="px-3 py-1 rounded-lg bg-cave-950/85 backdrop-blur-md border border-gold/40 text-gold text-[11px] font-mono font-semibold">
+                                    ${course.category}
+                                </span>
+                                <span class="px-2.5 py-1 rounded-lg bg-cave-950/85 backdrop-blur-md border border-white/15 text-gray-200 text-[11px] font-mono">
+                                    ${course.level}
+                                </span>
+                            </div>
+
+                            <!-- Floating Sample Video Play Trigger -->
+                            <button onclick="openCourseModal(${course.id})" aria-label="Watch Free Preview of ${course.title}"
+                                    class="absolute bottom-3.5 right-3.5 bg-cave-950/90 hover:bg-gold text-white hover:text-cave-950 border border-white/20 hover:border-gold text-xs font-bold px-3.5 py-2 rounded-xl backdrop-blur-md transition-all flex items-center space-x-1.5 shadow-lg">
+                                <i class="fa-solid fa-play text-[10px]"></i>
+                                <span>Watch Free Preview</span>
+                            </button>
+                        </div>
+
+                        <!-- Card Content -->
+                        <div class="p-6">
+                            <!-- Duration & Lesson Count -->
+                            <div class="flex items-center space-x-3 text-xs font-mono text-gray-400 mb-2.5">
+                                <span><i class="fa-regular fa-clock text-gold mr-1"></i>${course.duration}</span>
+                                <span>&bull;</span>
+                                <span><i class="fa-solid fa-film text-gold mr-1"></i>${course.lessonsCount}</span>
+                            </div>
+
+                            <h3 class="text-xl font-bold text-white group-hover:text-gold transition-colors leading-snug">
+                                ${course.title}
+                            </h3>
+
+                            <p class="text-gray-400 text-xs sm:text-sm mt-2.5 leading-relaxed">
+                                ${course.description}
+                            </p>
+
+                            <!-- Bullet Highlights -->
+                            <ul class="space-y-2 mt-5 pt-4 border-t border-white/10 text-xs text-gray-300">
+                                ${course.highlights.map(item => `
+                                    <li class="flex items-start gap-2">
+                                        <i class="fa-solid fa-check text-gold mt-0.5 shrink-0"></i>
+                                        <span>${item}</span>
+                                    </li>
+                                `).join("")}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Card Footer: Price + Syllabus & Enroll Buttons -->
+                    <div class="px-6 pb-6 pt-3 border-t border-white/10 flex items-center justify-between gap-3">
+                        <div>
+                            <div class="text-xl font-extrabold text-white leading-none">${course.priceBDT}</div>
+                            <div class="text-[11px] font-mono text-gold mt-1">${course.priceUSD} USD</div>
+                        </div>
+
+                        <div class="flex items-center space-x-2">
+                            <button onclick="openCourseModal(${course.id})" class="bg-white/5 hover:bg-white/15 border border-white/15 text-gray-200 text-xs font-semibold px-3.5 py-2.5 rounded-xl transition-colors">
+                                Syllabus
+                            </button>
+                            <button onclick="selectCourseForEnrollment('${course.title.replace(/'/g, "\\'")}')" 
+                                    class="bg-gradient-to-r from-gold to-yellow-500 text-cave-950 font-extrabold text-xs px-4 py-2.5 rounded-xl hover:brightness-110 transition-all shadow-md shadow-gold/15">
+                                Enroll Now
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            `).join("");
+        }
+
+        // Category Filter Handler
+        function setCourseCategory(category, btnEl) {
+            activeCategory = category;
+            document.querySelectorAll(".cat-tab").forEach(tab => {
+                tab.className = "cat-tab bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10 font-semibold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all";
+            });
+            btnEl.className = "cat-tab active bg-gold text-cave-950 font-bold text-xs sm:text-sm px-4 py-2.5 rounded-xl whitespace-nowrap transition-all";
+            renderCourses();
+        }
+
+        // Populate Enrollment Select Dropdown
+        function populateEnrollmentDropdown() {
+            const selectEl = document.getElementById("selected-course");
+            const courseOptions = coursesCatalog.map(c => 
+                `<option value="${c.title} (${c.priceBDT} / ${c.priceUSD})">${c.title} — ${c.priceBDT} (${c.priceUSD})</option>`
+            ).join("");
+            const customOption = `<option value="Custom 1-on-1 Private Coaching / Mentorship">Custom 1-on-1 Private Coaching / Mentorship</option>`;
+            selectEl.innerHTML = courseOptions + customOption;
+        }
+
+        // Select Course & Scroll to Enrollment Form
+        function selectCourseForEnrollment(courseTitle) {
+            closeCourseModal();
+            const selectEl = document.getElementById("selected-course");
+            for (let i = 0; i < selectEl.options.length; i++) {
+                if (selectEl.options[i].value.startsWith(courseTitle)) {
+                    selectEl.selectedIndex = i;
+                    break;
+                }
+            }
+            document.getElementById("enrollment").scrollIntoView({ behavior: "smooth" });
+            showToast(`Selected: ${courseTitle}`);
+        }
+
+        function selectFormatAndScroll(formatValue, defaultCourseTitle) {
+            document.getElementById("learning-format").value = formatValue;
+            selectCourseForEnrollment(defaultCourseTitle);
+        }
+
+        // Course Syllabus & Video Preview Modal Logic
+        function openCourseModal(courseId) {
+            const course = coursesCatalog.find(c => c.id === courseId);
+            if (!course) return;
+
+            document.getElementById("modal-category-badge").textContent = course.category;
+            document.getElementById("modal-course-title").textContent = course.title;
+            document.getElementById("modal-course-desc").textContent = course.description;
+            document.getElementById("modal-course-meta").textContent = `${course.level} • ${course.duration} • ${course.lessonsCount}`;
+            document.getElementById("modal-price-bdt").textContent = course.priceBDT;
+            document.getElementById("modal-price-usd").textContent = `${course.priceUSD} USD`;
+
+            // Set Video Preview Source & Poster
+            const videoPlayer = document.getElementById("modal-video-player");
+            const videoSource = document.getElementById("modal-video-source");
+            videoPlayer.poster = course.thumbnail;
+            videoSource.src = course.previewVideoUrl;
+            videoPlayer.load();
+
+            // Set Modal Enroll Button
+            const enrollBtn = document.getElementById("modal-enroll-btn");
+            enrollBtn.onclick = () => selectCourseForEnrollment(course.title);
+
+            // Render Expandable Syllabus Modules
+            const syllabusContainer = document.getElementById("modal-syllabus-list");
+            syllabusContainer.innerHTML = course.syllabus.map((mod, idx) => `
+                <div class="border border-white/10 rounded-xl bg-cave-950/70 overflow-hidden">
+                    <button type="button" onclick="toggleSyllabusAccordion(${idx})" class="w-full px-4 py-3.5 text-left flex items-center justify-between gap-3 hover:bg-white/[0.03] transition-colors">
+                        <span class="text-xs sm:text-sm font-bold text-white">${mod.module}</span>
+                        <i id="syllabus-icon-${idx}" class="fa-solid fa-chevron-down text-gold text-xs transition-transform duration-200 ${idx === 0 ? 'rotate-180' : ''}"></i>
+                    </button>
+                    <div id="syllabus-body-${idx}" class="${idx === 0 ? '' : 'hidden'} px-4 pb-3.5 text-xs text-gray-400 leading-relaxed border-t border-white/5 pt-2.5">
+                        ${mod.lessons}
+                    </div>
+                </div>
+            `).join("");
+
+            const modal = document.getElementById("course-modal");
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function closeCourseModal() {
+            const modal = document.getElementById("course-modal");
+            const videoPlayer = document.getElementById("modal-video-player");
+            videoPlayer.pause();
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+        }
+
+        function toggleSyllabusAccordion(idx) {
+            const body = document.getElementById(`syllabus-body-${idx}`);
+            const icon = document.getElementById(`syllabus-icon-${idx}`);
+            body.classList.toggle("hidden");
+            icon.classList.toggle("rotate-180");
+        }
+
+        // Close Modal on Escape Key
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") closeCourseModal();
+        });
+
+        // Enrollment Form Submission & WhatsApp Logic
+        function handleEnrollmentSubmit(e) {
+            e.preventDefault();
+            const studentName = document.getElementById("student-name").value.trim();
+            const contact = document.getElementById("student-contact").value.trim();
+            const course = document.getElementById("selected-course").value;
+            const format = document.getElementById("learning-format").value;
+
+            document.getElementById("enrollment-form").classList.add("hidden");
+            const confirmBox = document.getElementById("enrollment-confirmation");
+            document.getElementById("enrollment-summary").innerHTML =
+                `Welcome to Audio Cave Academy, <strong class="text-white">${studentName}</strong>! We received your enrollment for <strong class="text-gold">${course}</strong> (<span class="text-white">${format}</span>). We will send your access and payment instructions to <strong class="text-white">${contact}</strong> shortly.`;
+            confirmBox.classList.remove("hidden");
+            showToast("Course enrollment request received!");
+        }
+
+        function resetEnrollmentForm() {
+            document.getElementById("enrollment-form").reset();
+            document.getElementById("enrollment-confirmation").classList.add("hidden");
+            document.getElementById("enrollment-form").classList.remove("hidden");
+        }
+
+        function enrollViaWhatsApp() {
+            const studentName = document.getElementById("student-name").value.trim() || "Student";
+            const course = document.getElementById("selected-course").value;
+            const format = document.getElementById("learning-format").value;
+            const level = document.getElementById("experience-level").value;
+            const daw = document.getElementById("primary-daw").value.trim();
+            const goals = document.getElementById("student-goals").value.trim();
+
+            const msg = encodeURIComponent(
+                `Hi Audio Cave Academy! I'm ${studentName}.\nCourse: ${course}\nFormat: ${format}\nLevel: ${level}${daw ? `\nDAW/Instrument: ${daw}` : ""}${goals ? `\nGoals: ${goals}` : ""}`
+            );
+            window.open(`https://wa.me/${STUDIO_WHATSAPP_NUMBER}?text=${msg}`, "_blank", "noopener");
+        }
+
+        // Toast Helper
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            document.getElementById("toast-message").textContent = msg;
+            toast.classList.remove("-translate-y-8", "opacity-0");
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => {
+                toast.classList.add("-translate-y-8", "opacity-0");
+            }, 3200);
+        }
+
+        // Initialize Page
+        window.addEventListener("DOMContentLoaded", () => {
+            renderCourses();
+            populateEnrollmentDropdown();
+        });
+    </script>
+</body>
+</html>
